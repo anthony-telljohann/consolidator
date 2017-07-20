@@ -1,6 +1,6 @@
 {
   "name": "consolidator",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Consolidate sources to a destination.",
   "main": "src/consolidator.cjs.js",
   "module": "src/consolidator.es6.js",
@@ -77,12 +77,7 @@
   "nyc": {
     "extends": "@istanbuljs/nyc-config-babel",
     "include": "lib",
-    "reporter": [
-      "lcov",
-      "text"
-    ]
+    "reporter": ["lcov", "text"]
   },
-  "files": [
-    "src"
-  ]
+  "files": ["src"]
 }

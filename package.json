@@ -1,0 +1,88 @@
+{
+  "name": "consolidator",
+  "version": "0.0.0",
+  "description": "Consolidate sources to a destination.",
+  "main": "src/consolidator.cjs.js",
+  "module": "src/consolidator.es6.js",
+  "browser": "src/consolidator.umd.js",
+  "scripts": {
+    "prebuild": "eslint --fix lib test",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "pretest": "npm run build",
+    "test": "cross-env NODE_ENV=test nyc mocha test/consolidator.js",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "prepare": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atelljohannsmothers/consolidator.git"
+  },
+  "keywords": [
+    "consolidate",
+    "merge",
+    "combine",
+    "unify",
+    "sources",
+    "files",
+    "reports",
+    "documents",
+    "destination",
+    "file",
+    "report",
+    "document"
+  ],
+  "author": "Anthony Telljohann-Smothers",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/atelljohannsmothers/consolidator/issues"
+  },
+  "homepage": "https://github.com/atelljohannsmothers/consolidator#readme",
+  "devDependencies": {
+    "@istanbuljs/nyc-config-babel": "^1.2.2",
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.1.1",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-lodash": "^3.2.11",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "babelrc-rollup": "^3.0.0",
+    "chai": "^4.1.0",
+    "chai-as-promised": "^7.1.1",
+    "codecov": "^2.2.0",
+    "cross-env": "^5.0.1",
+    "eslint": "^4.2.0",
+    "eslint-plugin-prettier": "^2.1.2",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.2",
+    "nyc": "^11.1.0",
+    "prettier": "^1.5.3",
+    "randomatic": "^1.1.7",
+    "rollup": "^0.45.2",
+    "rollup-plugin-alias": "^1.3.1",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-istanbul": "^1.1.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^4.3.1"
+  },
+  "dependencies": {
+    "fs-extra-promise": "^1.0.1",
+    "glob-promise": "^3.1.0",
+    "is": "^3.2.1",
+    "lodash.curry": "^4.1.1"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-babel",
+    "include": "lib",
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  },
+  "files": [
+    "src"
+  ]
+}

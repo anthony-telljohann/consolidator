@@ -6,7 +6,7 @@
   "module": "src/consolidator.es6.js",
   "browser": "src/consolidator.umd.js",
   "scripts": {
-    "prebuild": "eslint --fix lib test",
+    "prebuild": "",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "pretest": "npm run build",

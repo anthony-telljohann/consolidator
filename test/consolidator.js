@@ -11,23 +11,22 @@ import {
 } from './constants/index'
 import { system, user } from './objects/index'
 import {
-  SHOULD_BE_A_STRING,
-  SHOULD_BE_DEFINED,
-  SHOULD_NOT_BE_EMPTY
-} from '../lib/validators/non-empty-string-property-validator/messages/index'
-import {
   parameters,
   postConsolidatedFiles,
   preConsolidatedFiles
 } from './variables/index'
 import consolidator from '../lib/consolidator.js'
 
+const SHOULD_BE_A_STRING = `should be a non-empty string`
+const SHOULD_BE_DEFINED = `should be a non-empty string`
+const SHOULD_NOT_BE_EMPTY = `should be a non-empty string`
+
 chai.use(chaiAsPromised)
 
 const should = chai.should()
-const SHOULD_INCLUDE_SHOULD_BE_A_STRING = new RegExp(SHOULD_BE_A_STRING)
-const SHOULD_INCLUDE_SHOULD_BE_DEFINED = new RegExp(SHOULD_BE_DEFINED)
-const SHOULD_INCLUDE_SHOULD_NOT_BE_EMPTY = new RegExp(SHOULD_NOT_BE_EMPTY)
+const SHOULD_INCLUDE_SHOULD_BE_A_STRING = new RegExp(`should be string`)
+const SHOULD_INCLUDE_SHOULD_BE_DEFINED = new RegExp(`should be string`)
+const SHOULD_INCLUDE_SHOULD_NOT_BE_EMPTY = new RegExp(`should be string`)
 
 describe(`consolidator`, () => {
   it(`should consolidate`, () => {
@@ -44,31 +43,31 @@ describe(`consolidator`, () => {
   })
 
   describe(`consolidating`, () => {
-    beforeEach(`unspecify destination`, user.unspecifyDestination)
-    beforeEach(`unspecify sources`, user.unspecifySources)
-    beforeEach(
-      `unset pre-consolidated destination file`,
-      system.unsetPreConsolidatedDestinationFile
-    )
-    beforeEach(
-      `unset pre-consolidated source files`,
-      system.unsetPreConsolidatedSourceFiles
-    )
-    beforeEach(
-      `unset pre-consolidated destination file`,
-      system.unsetPreConsolidatedDestinationFile
-    )
-    beforeEach(
-      `unset pre-consolidated source files`,
-      system.unsetPreConsolidatedSourceFiles
-    )
+    beforeEach(`unspecify destination`, () => {
+      user.unspecifyDestination()
+    })
+    beforeEach(`unspecify sources`, () => {
+      user.unspecifySources()
+    })
+    beforeEach(`unset pre-consolidated destination file`, () => {
+      system.unsetPreConsolidatedDestinationFile()
+    })
+    beforeEach(`unset pre-consolidated source files`, () => {
+      system.unsetPreConsolidatedSourceFiles()
+    })
+    beforeEach(`unset pre-consolidated destination file`, () => {
+      system.unsetPreConsolidatedDestinationFile()
+    })
+    beforeEach(`unset pre-consolidated source files`, () => {
+      system.unsetPreConsolidatedSourceFiles()
+    })
     beforeEach(
       `system remove destination directory ${DESTINATION_DIRECTORY}`,
-      system.removeDestinationDirectory
+      async () => await system.removeDestinationDirectory()
     )
     beforeEach(
       `system remove sources directory ${SOURCES_DIRECTORY}`,
-      system.removeSourcesDirectory
+      async () => await system.removeSourcesDirectory()
     )
 
     describe(`user specifies sources as a non-empty string (${SOURCE_FILES})`, () => {
@@ -85,13 +84,13 @@ describe(`consolidator`, () => {
           describe(`source files are not empty`, () => {
             beforeEach(
               `system create random source files in ${SOURCES_DIRECTORY}`,
-              system.createRandomSourceFiles
+              async () => await system.createRandomSourceFiles()
             )
 
             describe(`system has no destination file`, () => {
               beforeEach(
                 `system remove destination directory ${DESTINATION_DIRECTORY}`,
-                system.removeDestinationDirectory
+                async () => await system.removeDestinationDirectory()
               )
 
               describe(`then consolidating`, () => {
@@ -126,7 +125,7 @@ describe(`consolidator`, () => {
               describe(`destination file is empty`, () => {
                 beforeEach(
                   `system create empty destination file in ${DESTINATION_DIRECTORY}`,
-                  system.createEmptyDestinationFile
+                  async () => await system.createEmptyDestinationFile()
                 )
 
                 describe(`then consolidating`, () => {
@@ -160,7 +159,7 @@ describe(`consolidator`, () => {
               describe(`destination file is not empty`, () => {
                 beforeEach(
                   `system create random destination file in ${DESTINATION_DIRECTORY}`,
-                  system.createRandomDestinationFile
+                  async () => await system.createRandomDestinationFile()
                 )
 
                 describe(`then consolidating`, () => {
@@ -200,13 +199,13 @@ describe(`consolidator`, () => {
           describe(`source files are empty`, () => {
             beforeEach(
               `system create empty source files in ${SOURCES_DIRECTORY}`,
-              system.createEmptySourceFiles
+              async () => await system.createEmptySourceFiles()
             )
 
             describe(`system has no destination file`, () => {
               beforeEach(
                 `system remove destination directory ${DESTINATION_DIRECTORY}`,
-                system.removeDestinationDirectory
+                async () => await system.removeDestinationDirectory()
               )
 
               describe(`then consolidating`, () => {
@@ -226,7 +225,7 @@ describe(`consolidator`, () => {
               describe(`destination file is empty`, () => {
                 beforeEach(
                   `system create empty destination file in ${DESTINATION_DIRECTORY}`,
-                  system.createEmptyDestinationFile
+                  async () => await system.createEmptyDestinationFile()
                 )
 
                 describe(`then consolidating`, () => {
@@ -244,7 +243,7 @@ describe(`consolidator`, () => {
               describe(`destination file is not empty`, () => {
                 beforeEach(
                   `system create random destination file in ${DESTINATION_DIRECTORY}`,
-                  system.createRandomDestinationFile
+                  async () => await system.createRandomDestinationFile()
                 )
 
                 describe(`then consolidating`, () => {
@@ -265,7 +264,7 @@ describe(`consolidator`, () => {
           describe(`system has no destination file`, () => {
             beforeEach(
               `system remove destination directory ${DESTINATION_DIRECTORY}`,
-              system.removeDestinationDirectory
+              async () => await system.removeDestinationDirectory()
             )
 
             describe(`then consolidating`, () => {
@@ -290,12 +289,12 @@ describe(`consolidator`, () => {
         describe(`system has no source files`, () => {
           beforeEach(
             `system remove sources directory ${SOURCES_DIRECTORY}`,
-            system.removeSourcesDirectory
+            async () => await system.removeSourcesDirectory()
           )
           describe(`system has no destination file`, () => {
             beforeEach(
               `system remove destination directory ${DESTINATION_DIRECTORY}`,
-              system.removeDestinationDirectory
+              async () => await system.removeDestinationDirectory()
             )
 
             describe(`then consolidating`, () => {
@@ -326,23 +325,18 @@ describe(`consolidator`, () => {
             describe(`destination file is empty`, () => {
               beforeEach(
                 `system create empty destination file in ${DESTINATION_DIRECTORY}`,
-                system.createEmptyDestinationFile
+                async () => await system.createEmptyDestinationFile()
               )
 
               describe(`then consolidating`, () => {
                 setup()
-                it(`should not manipulate destination file`, () => {
-                  should.equal(
-                    postConsolidatedFiles.destination,
-                    preConsolidatedFiles.destination
-                  )
+
+                it(`should remove existing destination file`, () => {
+                  should.not.exist(postConsolidatedFiles.destination)
                 })
 
-                it(`should not manipulate sources file`, () => {
-                  should.equal(
-                    postConsolidatedFiles.sources,
-                    preConsolidatedFiles.sources
-                  )
+                it(`should remove all source files`, () => {
+                  should.not.exist(postConsolidatedFiles.sources)
                 })
               })
             })
@@ -350,23 +344,17 @@ describe(`consolidator`, () => {
             describe(`destination file is not empty`, () => {
               beforeEach(
                 `system create random destination file in ${DESTINATION_DIRECTORY}`,
-                system.createRandomDestinationFile
+                async () => await system.createRandomDestinationFile()
               )
 
               describe(`then consolidating`, () => {
                 setup()
-                it(`should not manipulate destination file`, () => {
-                  should.equal(
-                    postConsolidatedFiles.destination,
-                    preConsolidatedFiles.destination
-                  )
+                it(`should remove existing destination file`, () => {
+                  should.not.exist(postConsolidatedFiles.destination)
                 })
 
-                it(`should not manipulate sources file`, () => {
-                  should.equal(
-                    postConsolidatedFiles.sources,
-                    preConsolidatedFiles.sources
-                  )
+                it(`should remove all source files`, () => {
+                  should.not.exist(postConsolidatedFiles.sources)
                 })
               })
             })
@@ -461,25 +449,23 @@ describe(`consolidator`, () => {
 function setup() {
   beforeEach(
     `read post-consolidated destination file`,
-    system.readPreConsolidatedDestinationFile
+    async () => await system.readPreConsolidatedDestinationFile()
   )
   beforeEach(
     `read post-consolidated source files`,
-    system.readPreConsolidatedSourceFiles
+    async () => await system.readPreConsolidatedSourceFiles()
   )
-  beforeEach(`consolidate`, function(done) {
-    consolidator
-      .consolidate(parameters.sources, parameters.destination)
-      .then(function() {
-        done()
-      })
-  })
+  beforeEach(
+    `consolidate`,
+    async () =>
+      await consolidator.consolidate(parameters.sources, parameters.destination)
+  )
   beforeEach(
     `read post-consolidated destination file`,
-    system.readPostConsolidatedDestinationFile
+    async () => await system.readPostConsolidatedDestinationFile()
   )
   beforeEach(
     `read post-consolidated source files`,
-    system.readPostConsolidatedSourceFiles
+    async () => await system.readPostConsolidatedSourceFiles()
   )
 }

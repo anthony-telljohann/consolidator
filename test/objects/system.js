@@ -1,9 +1,8 @@
 import randomatic from 'randomatic'
-
-import read from '../../lib/methods/read'
-import readAll from '../../lib/methods/read-all'
-import remove from '../../lib/methods/remove'
-import write from '../../lib/methods/write'
+import fs from 'async-file'
+import path from 'path'
+import glob from 'glob-promise'
+import is from 'is'
 
 import DESTINATION_DIRECTORY from '../constants/destination-directory'
 import DESTINATION_FILE from '../constants/destination-file'
@@ -15,60 +14,48 @@ import postConsolidatedFiles from '../variables/post-consolidated-files'
 import preConsolidatedFiles from '../variables/pre-consolidated-files'
 
 export default {
-  createEmptyDestinationFile(done) {
-    createEmptyDestinationFile().then(function() {
-      done()
-    })
+  async createEmptyDestinationFile() {
+    return await createEmptyDestinationFile()
   },
-  createEmptySourceFiles(done) {
-    createEmptySourceFiles().then(function() {
-      done()
-    })
+
+  async createEmptySourceFiles() {
+    return await createEmptySourceFiles()
   },
-  createRandomDestinationFile(done) {
-    createRandomDestinationFile().then(function() {
-      done()
-    })
+
+  async createRandomDestinationFile() {
+    return await createRandomDestinationFile()
   },
-  createRandomSourceFiles(done) {
-    createRandomSourceFiles().then(function() {
-      done()
-    })
+
+  async createRandomSourceFiles() {
+    return await createRandomSourceFiles()
   },
-  readPostConsolidatedDestinationFile(done) {
-    readDestinationFile()
-      .then(setPostConsolidatedDestinationFile)
-      .then(function() {
-        done()
-      })
+
+  async readPostConsolidatedDestinationFile() {
+    return setPostConsolidatedDestinationFile(await readDestinationFile())
   },
-  readPostConsolidatedSourceFiles(done) {
-    readSourceFiles().then(setPostConsolidatedSourceFiles).then(function() {
-      done()
-    })
+
+  async readPostConsolidatedSourceFiles() {
+    return setPostConsolidatedSourceFiles(await readSourceFiles())
   },
-  readPreConsolidatedDestinationFile(done) {
-    readDestinationFile()
-      .then(setPreConsolidatedDestinationFile)
-      .then(function() {
-        done()
-      })
+
+  async readPreConsolidatedDestinationFile() {
+    return setPreConsolidatedDestinationFile(await readDestinationFile())
   },
-  readPreConsolidatedSourceFiles(done) {
-    readSourceFiles().then(setPreConsolidatedSourceFiles).then(function() {
-      done()
-    })
+
+  async readPreConsolidatedSourceFiles() {
+    return setPreConsolidatedSourceFiles(await readSourceFiles())
   },
-  removeDestinationDirectory(done) {
-    remove(DESTINATION_DIRECTORY).then(function() {
-      done()
-    })
+
+  async removeDestinationDirectory() {
+    return await fs.delete(DESTINATION_DIRECTORY)
+    // done()
   },
-  removeSourcesDirectory(done) {
-    remove(SOURCES_DIRECTORY).then(function() {
-      done()
-    })
+
+  async removeSourcesDirectory() {
+    return await fs.delete(SOURCES_DIRECTORY)
+    // done()
   },
+
   unsetPostConsolidatedDestinationFile() {
     setPostConsolidatedDestinationFile(undefined)
   },
@@ -86,53 +73,73 @@ export default {
   }
 }
 
-function createEmptyFile(file) {
-  let data = ''
-  return write(file, data)
+async function createEmptyFile(file) {
+  if (!await fs.exists(file)) {
+    await fs.createDirectory(path.dirname(file))
+  }
+  return await fs.writeTextFile(file, '')
 }
 
-function createEmptyDestinationFile() {
-  return createEmptyFile(DESTINATION_FILE)
+async function createEmptyDestinationFile() {
+  return await createEmptyFile(DESTINATION_FILE)
 }
 
-function createEmptySourceFile() {
-  return createEmptyFile(SOURCES_DIRECTORY + randomatic('A', 10))
+async function createEmptySourceFile() {
+  return await createEmptyFile(SOURCES_DIRECTORY + randomatic('A', 10))
 }
 
-function createEmptySourceFiles() {
-  return Promise.all(
+async function createEmptySourceFiles() {
+  return await Promise.all(
     [...new Array(RANDOM_SOURCE_FILES_TO_CREATE)].map(() =>
       createEmptySourceFile()
     )
   )
 }
 
-function createRandomFile(file) {
-  let data = randomatic('*', 10)
-  return write(file, data)
+async function createRandomFile(file) {
+  if (!await fs.exists(file)) {
+    await fs.createDirectory(path.dirname(file))
+  }
+  return await fs.writeTextFile(file, randomatic('*', 10))
 }
 
-function createRandomDestinationFile() {
-  return createRandomFile(DESTINATION_FILE)
+async function createRandomDestinationFile() {
+  return await createRandomFile(DESTINATION_FILE)
 }
 
-function createRandomSourceFile() {
-  return createRandomFile(SOURCES_DIRECTORY + randomatic('A', 10))
+async function createRandomSourceFile() {
+  return await createRandomFile(SOURCES_DIRECTORY + randomatic('A', 10))
 }
 
-function createRandomSourceFiles() {
-  return Promise.all(
+async function createRandomSourceFiles() {
+  return await Promise.all(
     [...new Array(RANDOM_SOURCE_FILES_TO_CREATE)].map(() =>
       createRandomSourceFile()
     )
   )
 }
 
-function readSourceFiles() {
-  return readAll(SOURCE_FILES).catch(() => null)
+async function readSourceFiles() {
+  let sourceFiles = await glob(SOURCE_FILES)
+  let sourceFilesData
+  if (!is.empty(sourceFiles)) {
+    sourceFilesData = await Promise.all(
+      sourceFiles.map(sourceFile => fs.readTextFile(sourceFile))
+    )
+  } else {
+    sourceFilesData = null
+  }
+  return sourceFilesData
 }
-function readDestinationFile() {
-  return read(DESTINATION_FILE).catch(() => null)
+
+async function readDestinationFile() {
+  let destinationFile
+  try {
+    destinationFile = await fs.readTextFile(DESTINATION_FILE)
+  } catch (e) {
+    destinationFile = null
+  }
+  return destinationFile
 }
 
 function setPostConsolidatedDestinationFile(value) {

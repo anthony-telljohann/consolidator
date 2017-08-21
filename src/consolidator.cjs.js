@@ -249,12 +249,14 @@ var consolidateFilesToFile$1 = (function() {
                 return fs.delete(destinationFile)
 
               case 2:
+                sourceFiles = sourceFiles.filter(is.string)
+
                 if (is.empty(sourceFiles)) {
-                  _context2.next = 5
+                  _context2.next = 6
                   break
                 }
 
-                _context2.next = 5
+                _context2.next = 6
                 return Promise.all(
                   sourceFiles.map(
                     (function() {
@@ -296,7 +298,7 @@ var consolidateFilesToFile$1 = (function() {
                   )
                 )
 
-              case 5:
+              case 6:
               case 'end':
                 return _context2.stop()
             }
@@ -350,7 +352,7 @@ var consolidateGlobToFile$1 = (function() {
   }
 })()
 
-var consolidator$1 = {
+var _consolidate = {
   fileToFile: consolidateFileToFile$1,
   filesToFile: consolidateFilesToFile$1,
   globToFile: consolidateGlobToFile$1
@@ -380,7 +382,7 @@ var ValidateString = function(Base) {
         key: 'isString',
         value: function isString(value) {
           if (!(is.string(value) && !is.empty(value.trim()))) {
-            throw new TypeError(`${this.name} should be string`)
+            throw new TypeError(`${this.name} should be a non-empty string`)
           }
         }
       }
@@ -447,8 +449,40 @@ var ValidateArray = function(Base) {
   })(Base)
 }
 
-var SourcesValidator = (function(_ValidateString) {
-  inherits(SourcesValidator, _ValidateString)
+var ValidateConsolidatable = function(Base) {
+  return (function(_Base) {
+    inherits(_class, _Base)
+
+    function _class() {
+      classCallCheck(this, _class)
+      return possibleConstructorReturn(
+        this,
+        (_class.__proto__ || Object.getPrototypeOf(_class))
+          .apply(this, arguments)
+      )
+    }
+
+    createClass(_class, [
+      {
+        key: 'isConsolidatable',
+        value: function isConsolidatable(value) {
+          if (
+            !is.array(value) &&
+            !(is.string(value) && !is.empty(value.trim()))
+          ) {
+            throw new TypeError(
+              `${this.name} should be an array or a non-empty string`
+            )
+          }
+        }
+      }
+    ])
+    return _class
+  })(Base)
+}
+
+var SourcesValidator = (function(_ValidateConsolidatab) {
+  inherits(SourcesValidator, _ValidateConsolidatab)
 
   function SourcesValidator() {
     classCallCheck(this, SourcesValidator)
@@ -460,13 +494,13 @@ var SourcesValidator = (function(_ValidateString) {
   }
 
   return SourcesValidator
-})(ValidateString(ValidateArray(Validator)))
+})(ValidateConsolidatable(ValidateString(ValidateArray(Validator))))
 
 var destination = new DestinationValidator()
 var source = new SourceValidator()
 var sources = new SourcesValidator()
 
-var validate = {
+var _validate = {
   destination,
   source,
   sources
@@ -475,17 +509,24 @@ var validate = {
 var consolidate = (function() {
   var _ref = asyncToGenerator(
     regeneratorRuntime.mark(function _callee(sources, destination) {
+      var consolidate
       return regeneratorRuntime.wrap(
         function _callee$(_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
-                return _context.abrupt(
-                  'return',
-                  consolidateGlobToFile(sources, destination)
-                )
+                _validate.sources.isConsolidatable(sources)
+                _validate.destination.isString(destination)
+                consolidate = void 0
 
-              case 1:
+                if (is.string(sources)) {
+                  consolidate = _consolidate.globToFile(sources, destination)
+                } else {
+                  consolidate = _consolidate.filesToFile(sources, destination)
+                }
+                return _context.abrupt('return', consolidate)
+
+              case 5:
               case 'end':
                 return _context.stop()
             }
@@ -510,11 +551,11 @@ var consolidateGlobToFile = (function() {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
-                validate.sources.isString(sources)
-                validate.destination.isString(destination)
+                _validate.sources.isString(sources)
+                _validate.destination.isString(destination)
                 return _context2.abrupt(
                   'return',
-                  consolidator$1.globToFile(sources, destination)
+                  _consolidate.globToFile(sources, destination)
                 )
 
               case 3:
@@ -542,11 +583,11 @@ var consolidateFilesToFile = (function() {
           while (1) {
             switch ((_context3.prev = _context3.next)) {
               case 0:
-                validate.sources.isArray(sources)
-                validate.destination.isString(destination)
+                _validate.sources.isArray(sources)
+                _validate.destination.isString(destination)
                 return _context3.abrupt(
                   'return',
-                  consolidator$1.filesToFile(sources, destination)
+                  _consolidate.filesToFile(sources, destination)
                 )
 
               case 3:
@@ -574,11 +615,11 @@ var consolidateFileToFile = (function() {
           while (1) {
             switch ((_context4.prev = _context4.next)) {
               case 0:
-                validate.source.isString(destination)
-                validate.destination.isString(destination)
+                _validate.source.isString(source)
+                _validate.destination.isString(destination)
                 return _context4.abrupt(
                   'return',
-                  consolidator$1.fileToFile(source, destination)
+                  _consolidate.fileToFile(source, destination)
                 )
 
               case 3:

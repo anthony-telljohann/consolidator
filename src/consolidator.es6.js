@@ -35,6 +35,7 @@ async function consolidateFileToFile$1(sourceFile, destinationFile) {
 
 async function consolidateFilesToFile$2(sourceFiles, destinationFile) {
   await fs.delete(destinationFile)
+  sourceFiles = sourceFiles.filter(is.string)
   if (!is.empty(sourceFiles)) {
     await Promise.all(
       sourceFiles.map(async sourceFile => {
@@ -49,7 +50,7 @@ async function consolidateGlobToFile$1(sourcesGlob, destinationFile) {
   return consolidateFilesToFile$2(await glob(sourcesGlob), destinationFile)
 }
 
-var consolidator$1 = {
+var _consolidate = {
   fileToFile: consolidateFileToFile$1,
   filesToFile: consolidateFilesToFile$2,
   globToFile: consolidateGlobToFile$1
@@ -65,7 +66,7 @@ var ValidateString = Base =>
   class extends Base {
     isString(value) {
       if (!(is.string(value) && !is.empty(value.trim()))) {
-        throw new TypeError(`${this.name} should be string`)
+        throw new TypeError(`${this.name} should be a non-empty string`)
       }
     }
   }
@@ -91,7 +92,20 @@ var ValidateArray = Base =>
     }
   }
 
-class SourcesValidator extends ValidateString(ValidateArray(Validator)) {
+var ValidateConsolidatable = Base =>
+  class extends Base {
+    isConsolidatable(value) {
+      if (!is.array(value) && !(is.string(value) && !is.empty(value.trim()))) {
+        throw new TypeError(
+          `${this.name} should be an array or a non-empty string`
+        )
+      }
+    }
+  }
+
+class SourcesValidator extends ValidateConsolidatable(
+  ValidateString(ValidateArray(Validator))
+) {
   constructor() {
     super('sources')
   }
@@ -101,7 +115,7 @@ const destination = new DestinationValidator()
 const source = new SourceValidator()
 const sources = new SourcesValidator()
 
-var validate = {
+var _validate = {
   destination,
   source,
   sources
@@ -115,25 +129,33 @@ var consolidator = {
 }
 
 async function consolidate(sources, destination) {
-  return consolidateGlobToFile(sources, destination)
+  _validate.sources.isConsolidatable(sources)
+  _validate.destination.isString(destination)
+  let consolidate
+  if (is.string(sources)) {
+    consolidate = _consolidate.globToFile(sources, destination)
+  } else {
+    consolidate = _consolidate.filesToFile(sources, destination)
+  }
+  return consolidate
 }
 
 async function consolidateGlobToFile(sources, destination) {
-  validate.sources.isString(sources)
-  validate.destination.isString(destination)
-  return consolidator$1.globToFile(sources, destination)
+  _validate.sources.isString(sources)
+  _validate.destination.isString(destination)
+  return _consolidate.globToFile(sources, destination)
 }
 
 async function consolidateFilesToFile(sources, destination) {
-  validate.sources.isArray(sources)
-  validate.destination.isString(destination)
-  return consolidator$1.filesToFile(sources, destination)
+  _validate.sources.isArray(sources)
+  _validate.destination.isString(destination)
+  return _consolidate.filesToFile(sources, destination)
 }
 
 async function consolidateFileToFile(source, destination) {
-  validate.source.isString(destination)
-  validate.destination.isString(destination)
-  return consolidator$1.fileToFile(source, destination)
+  _validate.source.isString(source)
+  _validate.destination.isString(destination)
+  return _consolidate.fileToFile(source, destination)
 }
 
 export default consolidator

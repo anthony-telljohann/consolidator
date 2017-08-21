@@ -14,7 +14,7 @@ before_script:
 after_script: greenkeeper-lockfile-upload
 after_success:
 - npm run coverage:upload
-- npm run semantic-release
+#- npm run semantic-release
 branches:
   except:
   - /^v\d+\.\d+\.\d+$/

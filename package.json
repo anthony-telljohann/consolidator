@@ -30,7 +30,7 @@
     "pretest": "npm run build && npm run lint:test",
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
-    "test": "cross-env BABEL_ENV=test nyc ava",
+    "test": "cross-env BABEL_ENV=test nyc mocha",
     "watch": "cross-env BABEL_ENV=test ava --watch",
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post"
   },

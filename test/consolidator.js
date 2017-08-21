@@ -440,7 +440,7 @@ describe(`consolidator`, () => {
   })
 })
 
-function setup() {
+function setup () {
   beforeEach(
     `read post-consolidated destination file`,
     async () => await system.readPreConsolidatedDestinationFile()

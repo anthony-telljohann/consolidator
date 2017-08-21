@@ -1,0 +1,40 @@
+{
+  "env": {
+    "cjs": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "node": "4"
+            },
+            "modules": false,
+            "useBuiltIns": true,
+            "debug": true
+          }
+        ]
+      ],
+      "plugins": ["external-helpers"]
+    },
+    "es": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "node": "current"
+            },
+            "modules": false,
+            "useBuiltIns": true,
+            "debug": true
+          }
+        ]
+      ],
+      "plugins": ["external-helpers"]
+    },
+    "test": {
+      "presets": ["@ava/stage-4"],
+      "plugins": ["istanbul"]
+    }
+  }
+}

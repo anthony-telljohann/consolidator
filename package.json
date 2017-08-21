@@ -69,11 +69,21 @@
     "rollup-watch": "^4.3.1"
   },
   "dependencies": {
+    "@bubltechnology/customizable-commit-analyzer": "^1.0.2-0",
     "async-file": "^2.0.2",
+    "ava": "^0.22.0",
+    "babel-plugin-module-resolver": "^2.7.1",
+    "babel-preset-env": "^1.6.0",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.0.0",
     "fs-extra-promise": "^1.0.1",
     "glob-promise": "^3.1.0",
+    "husky": "^0.14.3",
     "is": "^3.2.1",
-    "lodash.curry": "^4.1.1"
+    "lodash.curry": "^4.1.1",
+    "prettier-standard": "^6.0.0",
+    "rollup-plugin-prettier": "^0.2.0",
+    "semantic-release": "^7.0.2"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-babel",

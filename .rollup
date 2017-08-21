@@ -12,7 +12,7 @@ if (process.env.BABEL_ENV === 'es') {
 
 export default {
   format: process.env.BABEL_ENV,
-  entry: `lib/add.js`,
+  entry: `lib/consolidator.js`,
   dest: dest,
   external: Object.keys(pkg.dependencies),
   plugins: [babel(), prettier(pkg.prettier)]

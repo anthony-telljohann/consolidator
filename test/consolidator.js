@@ -312,12 +312,6 @@ describe(`consolidator`, () => {
                   preConsolidatedFiles.sources
                 )
               })
-
-              // describe(`destination file`, () => {
-              //   it(`should be a string`, () => {
-              //     postConsolidatedFiles.destination.should.be.a('string')
-              //   })
-              // })
             })
           })
 

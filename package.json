@@ -32,8 +32,8 @@
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
     "test": "npm run test:unit && npm run test:functional",
-    "test:functional": "cross-env BABEL_ENV=test nyc mocha",
-    "test:unit": "cross-env BABEL_ENV=test nyc ava",
+    "test:functional": "cross-env BABEL_ENV=test nyc mocha test/functional/*.js",
+    "test:unit": "cross-env BABEL_ENV=test nyc ava test/unit/*.js",
     "watch": "cross-env BABEL_ENV=test ava --watch"
   },
   "repository": {

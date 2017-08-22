@@ -1,9 +1,9 @@
 import randomatic from 'randomatic'
 
-import read from '../methods/read'
-import readAll from '../methods/read-all'
-import remove from '../methods/remove'
-import write from '../methods/write'
+import read from '../methods/read.js'
+import readAll from '../methods/read-all.js'
+import remove from '../methods/remove.js'
+import write from '../methods/write.js'
 
 import DESTINATION_DIRECTORY from '../constants/destination-directory'
 import DESTINATION_FILE from '../constants/destination-file'

@@ -1,5 +1,7 @@
 'use strict'
 
+Object.defineProperty(exports, '__esModule', { value: true })
+
 function _interopDefault(ex) {
   return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex
 }
@@ -639,11 +641,7 @@ var consolidateFileToFile = (function() {
   }
 })()
 
-var consolidator = {
-  consolidate,
-  consolidateGlobToFile,
-  consolidateFilesToFile,
-  consolidateFileToFile
-}
-
-module.exports = consolidator
+exports.consolidate = consolidate
+exports.consolidateGlobToFile = consolidateGlobToFile
+exports.consolidateFilesToFile = consolidateFilesToFile
+exports.consolidateFileToFile = consolidateFileToFile

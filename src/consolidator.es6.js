@@ -121,13 +121,6 @@ var _validate = {
   sources
 }
 
-var consolidator = {
-  consolidate,
-  consolidateGlobToFile,
-  consolidateFilesToFile,
-  consolidateFileToFile
-}
-
 async function consolidate(sources, destination) {
   _validate.sources.isConsolidatable(sources)
   _validate.destination.isString(destination)
@@ -158,4 +151,9 @@ async function consolidateFileToFile(source, destination) {
   return _consolidate.fileToFile(source, destination)
 }
 
-export default consolidator
+export {
+  consolidate,
+  consolidateGlobToFile,
+  consolidateFilesToFile,
+  consolidateFileToFile
+}

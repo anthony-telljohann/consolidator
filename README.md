@@ -1,5 +1,7 @@
 # consolidator
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/atelljohannsmothers/consolidator.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/atelljohannsmothers/consolidator.svg?branch=master)](https://travis-ci.org/atelljohannsmothers/consolidator)
 [![codecov](https://codecov.io/gh/atelljohannsmothers/consolidator/branch/master/graph/badge.svg)](https://codecov.io/gh/atelljohannsmothers/consolidator)
 [![NPM version](https://img.shields.io/npm/v/consolidator.svg)](https://www.npmjs.com/package/consolidator)

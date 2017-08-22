@@ -30,8 +30,9 @@
     "pretest": "npm run build && npm run lint:test",
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
-    "test": "cross-env BABEL_ENV=test nyc ava",
+    "test": "npm run test:unit && npm run test:functional",
     "test:unit": "cross-env BABEL_ENV=test nyc ava",
+    "test:functional": "cross-env BABEL_ENV=test nyc mocha",
     "watch": "cross-env BABEL_ENV=test ava --watch",
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post"
   },
@@ -63,7 +64,6 @@
     "@bubltechnology/customizable-commit-analyzer": "^1.0.2-0",
     "@istanbuljs/nyc-config-babel": "^1.2.2",
     "ava": "^0.22.0",
-    "ava-fixture": "^0.11.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",

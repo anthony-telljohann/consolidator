@@ -1,6 +1,4 @@
-
-import chai from 'chai'
-import chaiAsPromised from 'chai-as-promised'
+import should from 'should'
 import {
   DESTINATION_DIRECTORY,
   DESTINATION_FILE,
@@ -12,35 +10,34 @@ import {
 } from './constants/index'
 import { system, user } from './objects/index'
 import {
-  SHOULD_BE_A_STRING,
-  SHOULD_BE_DEFINED,
-  SHOULD_NOT_BE_EMPTY
-} from '../lib/validators/non-empty-string-property-validator/messages/index'
-import {
   parameters,
   postConsolidatedFiles,
   preConsolidatedFiles
 } from './variables/index'
-import consolidator from '../lib/consolidator.js'
 
-chai.use(chaiAsPromised)
+import * as consolidator from 'consolidator'
 
-const should = chai.should()
+const SHOULD_BE_A_STRING = 'foo'
+const SHOULD_BE_DEFINED = 'foo'
+const SHOULD_NOT_BE_EMPTY = 'foo'
+
 const SHOULD_INCLUDE_SHOULD_BE_A_STRING = new RegExp(SHOULD_BE_A_STRING)
 const SHOULD_INCLUDE_SHOULD_BE_DEFINED = new RegExp(SHOULD_BE_DEFINED)
 const SHOULD_INCLUDE_SHOULD_NOT_BE_EMPTY = new RegExp(SHOULD_NOT_BE_EMPTY)
 
+console.log('should not exist', should.not.exist())
+
 describe(`consolidator`, () => {
-  it(`should consolidate`, () => {
+  it(`should consolidate`, async () => {
     consolidator.should.have.property('consolidate')
   })
 
   describe(`consolidate`, () => {
-    it(`should be a function`, () => {
-      consolidator.consolidate.should.be.a('function')
+    it(`should be a function`, async () => {
+      consolidator.consolidate.should.be.a.Function
     })
-    it(`should return a promise`, () => {
-      consolidator.consolidate().should.be.a('promise')
+    it(`should return a promise`, async () => {
+      consolidator.consolidate().should.be.a.Promise
     })
   })
 
@@ -77,13 +74,13 @@ describe(`consolidator`, () => {
         user.specifySources(SOURCE_FILES)
       )
 
-      describe(`user specifies destination as a non-empty string (${DESTINATION_FILE})`, () => {
+      describe(`user specifies destination as a non-empty string (${DESTINATION_FILE})`, async () => {
         beforeEach(`user specify destination as ${DESTINATION_FILE}`, () =>
           user.specifyDestination(DESTINATION_FILE)
         )
 
         describe(`system has source files`, () => {
-          describe(`source files are not empty`, () => {
+          describe(`source files are not empty`, async () => {
             beforeEach(
               `system create random source files in ${SOURCES_DIRECTORY}`,
               system.createRandomSourceFiles
@@ -95,26 +92,26 @@ describe(`consolidator`, () => {
                 system.removeDestinationDirectory
               )
 
-              describe(`then consolidating`, () => {
+              describe(`then consolidating`, async () => {
                 setup()
-                it(`should create a destination file`, () => {
+                it(`should create a destination file`, async () => {
                   postConsolidatedFiles.destination.should.exist
                 })
 
-                it(`should remove all source files`, () => {
+                it(`should remove all source files`, async () => {
                   should.not.exist(postConsolidatedFiles.sources)
                 })
 
-                describe(`destination file`, () => {
-                  it(`should be a string`, () => {
-                    postConsolidatedFiles.destination.should.be.a('string')
+                describe(`destination file`, async () => {
+                  it(`should be a string`, async () => {
+                    postConsolidatedFiles.destination.should.be.a.String
                   })
-                  it(`should not be empty`, () => {
+                  it(`should not be empty`, async () => {
                     postConsolidatedFiles.destination.should.not.be.empty
                   })
-                  it(`should include every source file`, () => {
+                  it(`should include every source file`, async () => {
                     preConsolidatedFiles.sources.every(sourceFile => {
-                      postConsolidatedFiles.destination.should.include(
+                      postConsolidatedFiles.destination.should.containEql(
                         sourceFile
                       )
                     })
@@ -123,33 +120,33 @@ describe(`consolidator`, () => {
               })
             })
 
-            describe(`system has a destination file`, () => {
-              describe(`destination file is empty`, () => {
+            describe(`system has a destination file`, async () => {
+              describe(`destination file is empty`, async () => {
                 beforeEach(
                   `system create empty destination file in ${DESTINATION_DIRECTORY}`,
                   system.createEmptyDestinationFile
                 )
 
-                describe(`then consolidating`, () => {
+                describe(`then consolidating`, async () => {
                   setup()
-                  it(`should create a destination file`, () => {
+                  it(`should create a destination file`, async () => {
                     postConsolidatedFiles.destination.should.exist
                   })
 
-                  it(`should remove all source files`, () => {
+                  it(`should remove all source files`, async () => {
                     should.not.exist(postConsolidatedFiles.sources)
                   })
 
-                  describe(`destination file`, () => {
-                    it(`should be a string`, () => {
-                      postConsolidatedFiles.destination.should.be.a('string')
+                  describe(`destination file`, async () => {
+                    it(`should be a string`, async () => {
+                      postConsolidatedFiles.destination.should.be.a.String
                     })
-                    it(`should not be empty`, () => {
+                    it(`should not be empty`, async () => {
                       postConsolidatedFiles.destination.should.not.be.empty
                     })
-                    it(`should include every source file`, () => {
+                    it(`should include every source file`, async () => {
                       preConsolidatedFiles.sources.every(sourceFile => {
-                        postConsolidatedFiles.destination.should.include(
+                        postConsolidatedFiles.destination.should.containEql(
                           sourceFile
                         )
                       })
@@ -158,38 +155,39 @@ describe(`consolidator`, () => {
                 })
               })
 
-              describe(`destination file is not empty`, () => {
+              describe(`destination file is not empty`, async () => {
                 beforeEach(
                   `system create random destination file in ${DESTINATION_DIRECTORY}`,
                   system.createRandomDestinationFile
                 )
 
-                describe(`then consolidating`, () => {
+                describe(`then consolidating`, async () => {
                   setup()
-                  it(`should create a destination file`, () => {
+                  it(`should create a destination file`, async () => {
                     postConsolidatedFiles.destination.should.exist
                   })
 
-                  it(`should remove all source files`, () => {
-                    should.not.exist(postConsolidatedFiles.sources)
+                  it(`should remove all source files`, async () => {
+                    should(null).not.be.ok()
+                    // postConsolidatedFiles.sources.should.not.exist
                   })
 
-                  describe(`destination file`, () => {
-                    it(`should be a string`, () => {
-                      postConsolidatedFiles.destination.should.be.a('string')
+                  describe(`destination file`, async () => {
+                    it(`should be a string`, async () => {
+                      postConsolidatedFiles.destination.should.be.a.String
                     })
-                    it(`should not be empty`, () => {
+                    it(`should not be empty`, async () => {
                       postConsolidatedFiles.destination.should.not.be.empty
                     })
-                    it(`should include every source file`, () => {
+                    it(`should include every source file`, async () => {
                       preConsolidatedFiles.sources.every(sourceFile => {
-                        postConsolidatedFiles.destination.should.include(
+                        postConsolidatedFiles.destination.should.containEql(
                           sourceFile
                         )
                       })
                     })
-                    it(`should not include pre-consolidated destination file`, () => {
-                      postConsolidatedFiles.destination.should.not.include(
+                    it(`should not include pre-consolidated destination file`, async () => {
+                      postConsolidatedFiles.destination.should.not.containEql(
                         preConsolidatedFiles.destination
                       )
                     })
@@ -198,64 +196,64 @@ describe(`consolidator`, () => {
               })
             })
           })
-          describe(`source files are empty`, () => {
+          describe(`source files are empty`, async () => {
             beforeEach(
               `system create empty source files in ${SOURCES_DIRECTORY}`,
               system.createEmptySourceFiles
             )
 
-            describe(`system has no destination file`, () => {
+            describe(`system has no destination file`, async () => {
               beforeEach(
                 `system remove destination directory ${DESTINATION_DIRECTORY}`,
                 system.removeDestinationDirectory
               )
 
-              describe(`then consolidating`, () => {
+              describe(`then consolidating`, async () => {
                 setup()
 
-                it(`should remove existing destination file`, () => {
+                it(`should remove existing destination file`, async () => {
                   should.not.exist(postConsolidatedFiles.destination)
                 })
 
-                it(`should remove all source files`, () => {
+                it(`should remove all source files`, async () => {
                   should.not.exist(postConsolidatedFiles.sources)
                 })
               })
             })
 
-            describe(`system has a destination file`, () => {
-              describe(`destination file is empty`, () => {
+            describe(`system has a destination file`, async () => {
+              describe(`destination file is empty`, async () => {
                 beforeEach(
                   `system create empty destination file in ${DESTINATION_DIRECTORY}`,
                   system.createEmptyDestinationFile
                 )
 
-                describe(`then consolidating`, () => {
+                describe(`then consolidating`, async () => {
                   setup()
-                  it(`should remove existing destination file`, () => {
+                  it(`should remove existing destination file`, async () => {
                     should.not.exist(postConsolidatedFiles.destination)
                   })
 
-                  it(`should remove all source files`, () => {
+                  it(`should remove all source files`, async () => {
                     should.not.exist(postConsolidatedFiles.sources)
                   })
                 })
               })
 
-              describe(`destination file is not empty`, () => {
+              describe(`destination file is not empty`, async () => {
                 beforeEach(
                   `system create random destination file in ${DESTINATION_DIRECTORY}`,
                   system.createRandomDestinationFile
                 )
 
-                describe(`then consolidating`, () => {
+                describe(`then consolidating`, async () => {
                   setup()
 
-                  it(`should remove existing destination file`, () => {
+                  it(`should remove existing destination file`, async () => {
                     should.not.exist(postConsolidatedFiles.destination)
                   })
 
-                  it(`should remove all source files`, () => {
+                  it(`should remove all source files`, async () => {
                     should.not.exist(postConsolidatedFiles.sources)
                   })
                 })
@@ -263,22 +261,22 @@ describe(`consolidator`, () => {
             })
           })
 
-          describe(`system has no destination file`, () => {
+          describe(`system has no destination file`, async () => {
             beforeEach(
               `system remove destination directory ${DESTINATION_DIRECTORY}`,
               system.removeDestinationDirectory
             )
 
-            describe(`then consolidating`, () => {
+            describe(`then consolidating`, async () => {
               setup()
-              it(`should not manipulate destination file`, () => {
+              it(`should not manipulate destination file`, async () => {
                 should.equal(
                   postConsolidatedFiles.destination,
                   preConsolidatedFiles.destination
                 )
               })
 
-              it(`should not manipulate sources file`, () => {
+              it(`should not manipulate sources file`, async () => {
                 should.equal(
                   postConsolidatedFiles.sources,
                   preConsolidatedFiles.sources
@@ -288,58 +286,52 @@ describe(`consolidator`, () => {
           })
         })
 
-        describe(`system has no source files`, () => {
+        describe(`system has no source files`, async () => {
           beforeEach(
             `system remove sources directory ${SOURCES_DIRECTORY}`,
             system.removeSourcesDirectory
           )
-          describe(`system has no destination file`, () => {
+          describe(`system has no destination file`, async () => {
             beforeEach(
               `system remove destination directory ${DESTINATION_DIRECTORY}`,
               system.removeDestinationDirectory
             )
 
-            describe(`then consolidating`, () => {
+            describe(`then consolidating`, async () => {
               setup()
-              it(`should not manipulate destination file`, () => {
-                should.equal(
-                  postConsolidatedFiles.destination,
-                  preConsolidatedFiles.destination
-                )
+              it(`should remove existing destination file`, async () => {
+                should.not.exist(postConsolidatedFiles.destination)
               })
 
-              it(`should not manipulate sources file`, () => {
+              it(`should not manipulate sources file`, async () => {
                 should.equal(
                   postConsolidatedFiles.sources,
                   preConsolidatedFiles.sources
                 )
               })
 
-              // describe(`destination file`, () => {
-              //   it(`should be a string`, () => {
+              // describe(`destination file`, async () => {
+              //   it(`should be a string`, async () => {
               //     postConsolidatedFiles.destination.should.be.a('string')
               //   })
               // })
             })
           })
 
-          describe(`system has a destination file`, () => {
-            describe(`destination file is empty`, () => {
+          describe(`system has a destination file`, async () => {
+            describe(`destination file is empty`, async () => {
               beforeEach(
                 `system create empty destination file in ${DESTINATION_DIRECTORY}`,
                 system.createEmptyDestinationFile
               )
 
-              describe(`then consolidating`, () => {
+              describe(`then consolidating`, async () => {
                 setup()
-                it(`should not manipulate destination file`, () => {
-                  should.equal(
-                    postConsolidatedFiles.destination,
-                    preConsolidatedFiles.destination
-                  )
+                it(`should remove existing destination file`, async () => {
+                  should.not.exist(postConsolidatedFiles.destination)
                 })
 
-                it(`should not manipulate sources file`, () => {
+                it(`should not manipulate sources file`, async () => {
                   should.equal(
                     postConsolidatedFiles.sources,
                     preConsolidatedFiles.sources
@@ -348,22 +340,19 @@ describe(`consolidator`, () => {
               })
             })
 
-            describe(`destination file is not empty`, () => {
+            describe(`destination file is not empty`, async () => {
               beforeEach(
                 `system create random destination file in ${DESTINATION_DIRECTORY}`,
                 system.createRandomDestinationFile
               )
 
-              describe(`then consolidating`, () => {
+              describe(`then consolidating`, async () => {
                 setup()
-                it(`should not manipulate destination file`, () => {
-                  should.equal(
-                    postConsolidatedFiles.destination,
-                    preConsolidatedFiles.destination
-                  )
+                it(`should remove existing destination file`, async () => {
+                  should.not.exist(postConsolidatedFiles.destination)
                 })
 
-                it(`should not manipulate sources file`, () => {
+                it(`should not manipulate sources file`, async () => {
                   should.equal(
                     postConsolidatedFiles.sources,
                     preConsolidatedFiles.sources
@@ -375,12 +364,12 @@ describe(`consolidator`, () => {
         })
       })
 
-      describe(`user specifies destination as an empty string ('')`, () => {
+      describe(`user specifies destination as an empty string ('')`, async () => {
         beforeEach(`user specify destination as ''`, () =>
           user.specifyDestination(EMPTY_STRING)
         )
 
-        it(`should be rejected with TypeError 'destination ${SHOULD_NOT_BE_EMPTY}'`, () => {
+        it(`should be rejected with TypeError 'destination ${SHOULD_NOT_BE_EMPTY}'`, async () => {
           consolidator
             .consolidate(parameters.sources, parameters.destination)
             .should.be.rejectedWith(
@@ -390,12 +379,12 @@ describe(`consolidator`, () => {
         })
       })
 
-      describe(`user specifies destination as number (${NUMBER})`, () => {
+      describe(`user specifies destination as number (${NUMBER})`, async () => {
         beforeEach(`user specify destination as ${NUMBER}`, () =>
           user.specifyDestination(NUMBER)
         )
 
-        it(`should be rejected with TypeError 'destination ${SHOULD_BE_A_STRING}'`, () => {
+        it(`should be rejected with TypeError 'destination ${SHOULD_BE_A_STRING}'`, async () => {
           consolidator
             .consolidate(parameters.sources, parameters.destination)
             .should.be.rejectedWith(
@@ -405,12 +394,12 @@ describe(`consolidator`, () => {
         })
       })
 
-      describe(`user specifies destination as undefined (${UNDEFINED})`, () => {
+      describe(`user specifies destination as undefined (${UNDEFINED})`, async () => {
         beforeEach(`user specify destination as ${UNDEFINED}`, () =>
           user.specifyDestination(UNDEFINED)
         )
 
-        it(`should be rejected with TypeError 'destination ${SHOULD_BE_DEFINED}'`, () => {
+        it(`should be rejected with TypeError 'destination ${SHOULD_BE_DEFINED}'`, async () => {
           consolidator
             .consolidate(parameters.sources, parameters.destination)
             .should.be.rejectedWith(TypeError, SHOULD_INCLUDE_SHOULD_BE_DEFINED)
@@ -418,36 +407,36 @@ describe(`consolidator`, () => {
       })
     })
 
-    describe(`user specifies sources as an empty string ('')`, () => {
+    describe(`user specifies sources as an empty string ('')`, async () => {
       beforeEach(`user specify sources as ''`, () =>
         user.specifySources(EMPTY_STRING)
       )
 
-      it(`should be rejected with TypeError 'sources ${SHOULD_NOT_BE_EMPTY}'`, () => {
+      it(`should be rejected with TypeError 'sources ${SHOULD_NOT_BE_EMPTY}'`, async () => {
         consolidator
           .consolidate(parameters.sources, parameters.destination)
           .should.be.rejectedWith(TypeError, SHOULD_INCLUDE_SHOULD_NOT_BE_EMPTY)
       })
     })
 
-    describe(`user specifies sources as number (${NUMBER})`, () => {
+    describe(`user specifies sources as number (${NUMBER})`, async () => {
       beforeEach(`user specify sources as ${NUMBER}`, () =>
         user.specifySources(NUMBER)
       )
 
-      it(`should be rejected with TypeError 'sources ${SHOULD_BE_A_STRING}'`, () => {
+      it(`should be rejected with TypeError 'sources ${SHOULD_BE_A_STRING}'`, async () => {
         consolidator
           .consolidate(parameters.sources, parameters.destination)
           .should.be.rejectedWith(TypeError, SHOULD_INCLUDE_SHOULD_BE_A_STRING)
       })
     })
 
-    describe(`user specifies sources as undefined (${UNDEFINED})`, () => {
+    describe(`user specifies sources as undefined (${UNDEFINED})`, async () => {
       beforeEach(`user specify sources as undefined`, () =>
         user.specifySources(UNDEFINED)
       )
 
-      it(`should be rejected with TypeError 'sources ${SHOULD_BE_DEFINED}'`, () => {
+      it(`should be rejected with TypeError 'sources ${SHOULD_BE_DEFINED}'`, async () => {
         consolidator
           .consolidate(parameters.sources, parameters.destination)
           .should.be.rejectedWith(TypeError, SHOULD_INCLUDE_SHOULD_BE_DEFINED)

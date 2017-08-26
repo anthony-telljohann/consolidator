@@ -15,91 +15,91 @@ import postConsolidatedFiles from '../variables/post-consolidated-files'
 import preConsolidatedFiles from '../variables/pre-consolidated-files'
 
 export default {
-  createEmptyDestinationFile(done) {
-    createEmptyDestinationFile().then(function() {
+  createEmptyDestinationFile (done) {
+    createEmptyDestinationFile().then(function () {
       done()
     })
   },
-  createEmptySourceFiles(done) {
-    createEmptySourceFiles().then(function() {
+  createEmptySourceFiles (done) {
+    createEmptySourceFiles().then(function () {
       done()
     })
   },
-  createRandomDestinationFile(done) {
-    createRandomDestinationFile().then(function() {
+  createRandomDestinationFile (done) {
+    createRandomDestinationFile().then(function () {
       done()
     })
   },
-  createRandomSourceFiles(done) {
-    createRandomSourceFiles().then(function() {
+  createRandomSourceFiles (done) {
+    createRandomSourceFiles().then(function () {
       done()
     })
   },
-  readPostConsolidatedDestinationFile(done) {
+  readPostConsolidatedDestinationFile (done) {
     readDestinationFile()
       .then(setPostConsolidatedDestinationFile)
-      .then(function() {
+      .then(function () {
         done()
       })
   },
-  readPostConsolidatedSourceFiles(done) {
-    readSourceFiles().then(setPostConsolidatedSourceFiles).then(function() {
+  readPostConsolidatedSourceFiles (done) {
+    readSourceFiles().then(setPostConsolidatedSourceFiles).then(function () {
       done()
     })
   },
-  readPreConsolidatedDestinationFile(done) {
+  readPreConsolidatedDestinationFile (done) {
     readDestinationFile()
       .then(setPreConsolidatedDestinationFile)
-      .then(function() {
+      .then(function () {
         done()
       })
   },
-  readPreConsolidatedSourceFiles(done) {
-    readSourceFiles().then(setPreConsolidatedSourceFiles).then(function() {
+  readPreConsolidatedSourceFiles (done) {
+    readSourceFiles().then(setPreConsolidatedSourceFiles).then(function () {
       done()
     })
   },
-  removeDestinationDirectory(done) {
-    remove(DESTINATION_DIRECTORY).then(function() {
+  removeDestinationDirectory (done) {
+    remove(DESTINATION_DIRECTORY).then(function () {
       done()
     })
   },
-  removeSourcesDirectory(done) {
-    remove(SOURCES_DIRECTORY).then(function() {
+  removeSourcesDirectory (done) {
+    remove(SOURCES_DIRECTORY).then(function () {
       done()
     })
   },
-  unsetPostConsolidatedDestinationFile() {
+  unsetPostConsolidatedDestinationFile () {
     setPostConsolidatedDestinationFile(undefined)
   },
 
-  unsetPostConsolidatedSourceFiles() {
+  unsetPostConsolidatedSourceFiles () {
     setPostConsolidatedSourceFiles(undefined)
   },
 
-  unsetPreConsolidatedDestinationFile() {
+  unsetPreConsolidatedDestinationFile () {
     setPreConsolidatedDestinationFile(undefined)
   },
 
-  unsetPreConsolidatedSourceFiles() {
+  unsetPreConsolidatedSourceFiles () {
     setPreConsolidatedSourceFiles(undefined)
   }
 }
 
-function createEmptyFile(file) {
+function createEmptyFile (file) {
   let data = ''
   return write(file, data)
 }
 
-function createEmptyDestinationFile() {
+function createEmptyDestinationFile () {
   return createEmptyFile(DESTINATION_FILE)
 }
 
-function createEmptySourceFile() {
+function createEmptySourceFile () {
   return createEmptyFile(SOURCES_DIRECTORY + randomatic('A', 10))
 }
 
-function createEmptySourceFiles() {
+function createEmptySourceFiles () {
   return Promise.all(
     [...new Array(RANDOM_SOURCE_FILES_TO_CREATE)].map(() =>
       createEmptySourceFile()
@@ -107,20 +107,20 @@ function createEmptySourceFiles() {
   )
 }
 
-function createRandomFile(file) {
+function createRandomFile (file) {
   let data = randomatic('*', 10)
   return write(file, data)
 }
 
-function createRandomDestinationFile() {
+function createRandomDestinationFile () {
   return createRandomFile(DESTINATION_FILE)
 }
 
-function createRandomSourceFile() {
+function createRandomSourceFile () {
   return createRandomFile(SOURCES_DIRECTORY + randomatic('A', 10))
 }
 
-function createRandomSourceFiles() {
+function createRandomSourceFiles () {
   return Promise.all(
     [...new Array(RANDOM_SOURCE_FILES_TO_CREATE)].map(() =>
       createRandomSourceFile()
@@ -128,25 +128,25 @@ function createRandomSourceFiles() {
   )
 }
 
-function readSourceFiles() {
+function readSourceFiles () {
   return readAll(SOURCE_FILES).catch(() => null)
 }
-function readDestinationFile() {
+function readDestinationFile () {
   return read(DESTINATION_FILE).catch(() => null)
 }
 
-function setPostConsolidatedDestinationFile(value) {
+function setPostConsolidatedDestinationFile (value) {
   postConsolidatedFiles.destination = value
 }
 
-function setPostConsolidatedSourceFiles(value) {
+function setPostConsolidatedSourceFiles (value) {
   postConsolidatedFiles.sources = value
 }
 
-function setPreConsolidatedDestinationFile(value) {
+function setPreConsolidatedDestinationFile (value) {
   preConsolidatedFiles.destination = value
 }
 
-function setPreConsolidatedSourceFiles(value) {
+function setPreConsolidatedSourceFiles (value) {
   preConsolidatedFiles.sources = value
 }

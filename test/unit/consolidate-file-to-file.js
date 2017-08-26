@@ -1,41 +1,29 @@
 import { consolidateFileToFile } from 'consolidator'
 import { SOURCE, DESTINATION } from 'constants'
-import is from 'is'
-import test from 'ava'
 
-// consolidating
-// given source files do not exist
-// given source files are empty
-// given source files have data
+describe('consolidateFileToFile', () => {
+  it('should be a function', async () => {
+    consolidateFileToFile.should.be.a.Function()
+  })
 
-// given destination file does not exist
-// given destination file is empty
-// given destination file has data
+  it('should return a Promise', async () => {
+    consolidateFileToFile(SOURCE.FILE, DESTINATION.FILE).should.be.a.Promise()
+  })
 
-//  source files do not exist and destination file does not exist
+  it('should be fulfilled with undefined', async () => {
+    consolidateFileToFile(
+      SOURCE.FILE,
+      DESTINATION.FILE
+    ).should.be.fulfilledWith(undefined)
+  })
 
-// destination file data
-//
-// source file
-// source file data
-//
-// source files
-// source files data
+  it('should be rejected with TypeError', async () => {
+    consolidateFileToFile().should.be.rejectedWith(TypeError)
+  })
 
-test('is a function', async t => {
-  t.true(is.fn(consolidateFileToFile))
-})
-
-test('returns a Promise', async t => {
-  t.true(
-    is.instance(consolidateFileToFile(SOURCE.FILE, DESTINATION.FILE), Promise)
-  )
-})
-
-test('resolves undefined', async t => {
-  t.true(is.undef(await consolidateFileToFile(SOURCE.FILE, DESTINATION.FILE)))
-})
-
-test('throws TypeError', async t => {
-  await t.throws(consolidateFileToFile({}, {}))
+  it('should be rejected with "source should be a non-empty string"', async () => {
+    consolidateFileToFile().should.be.rejectedWith(
+      'source should be a non-empty string'
+    )
+  })
 })

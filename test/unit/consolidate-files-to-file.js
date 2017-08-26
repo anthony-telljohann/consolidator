@@ -1,22 +1,29 @@
 import { consolidateFilesToFile } from 'consolidator'
 import { SOURCE, DESTINATION } from 'constants'
-import is from 'is'
-import test from 'ava'
 
-test('is a function', async t => {
-  t.true(is.fn(consolidateFilesToFile))
-})
+describe('consolidateFilesToFile', () => {
+  it('should be a function', async () => {
+    consolidateFilesToFile.should.be.a.Function()
+  })
 
-test('returns a Promise', async t => {
-  t.true(
-    is.instance(consolidateFilesToFile(SOURCE.FILES, DESTINATION.FILE), Promise)
-  )
-})
+  it('should return a Promise', async () => {
+    consolidateFilesToFile(SOURCE.FILES, DESTINATION.FILE).should.be.a.Promise()
+  })
 
-test('resolves undefined', async t => {
-  t.true(is.undef(await consolidateFilesToFile(SOURCE.FILES, DESTINATION.FILE)))
-})
+  it('should be fulfilled with undefined', async () => {
+    consolidateFilesToFile(
+      SOURCE.FILES,
+      DESTINATION.FILE
+    ).should.be.fulfilledWith(undefined)
+  })
 
-test('throws TypeError', async t => {
-  await t.throws(consolidateFilesToFile({}, {}))
+  it('should be rejected with TypeError', async () => {
+    consolidateFilesToFile().should.be.rejectedWith(TypeError)
+  })
+
+  it('should be rejected with "sources should be an array"', async () => {
+    consolidateFilesToFile().should.be.rejectedWith(
+      'sources should be an array'
+    )
+  })
 })

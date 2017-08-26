@@ -1,16 +1,16 @@
 import parameters from '../variables/parameters'
 
 export default {
-  specifySources(value) {
+  specifySources (value) {
     parameters.sources = value
   },
-  specifyDestination(value) {
+  specifyDestination (value) {
     parameters.destination = value
   },
-  unspecifySources() {
+  unspecifySources () {
     parameters.sources = undefined
   },
-  unspecifyDestination() {
+  unspecifyDestination () {
     parameters.destination = undefined
   }
 }

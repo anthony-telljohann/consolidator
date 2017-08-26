@@ -1,22 +1,29 @@
 import { consolidateGlobToFile } from 'consolidator'
 import { SOURCES, DESTINATION } from 'constants'
-import is from 'is'
-import test from 'ava'
 
-test('is a function', async t => {
-  t.true(is.fn(consolidateGlobToFile))
-})
+describe('consolidateGlobToFile', () => {
+  it('should be a function', async () => {
+    consolidateGlobToFile.should.be.a.Function()
+  })
 
-test('returns a Promise', async t => {
-  t.true(
-    is.instance(consolidateGlobToFile(SOURCES.GLOB, DESTINATION.FILE), Promise)
-  )
-})
+  it('should return a Promise', async () => {
+    consolidateGlobToFile(SOURCES.GLOB, DESTINATION.FILE).should.be.a.Promise()
+  })
 
-test('resolves undefined', async t => {
-  t.true(is.undef(await consolidateGlobToFile(SOURCES.GLOB, DESTINATION.FILE)))
-})
+  it('should be fulfilled with undefined', async () => {
+    consolidateGlobToFile(
+      SOURCES.GLOB,
+      DESTINATION.FILE
+    ).should.be.fulfilledWith(undefined)
+  })
 
-test('throws TypeError', async t => {
-  await t.throws(consolidateGlobToFile({}, {}))
+  it('should be rejected with TypeError', async () => {
+    consolidateGlobToFile().should.be.rejectedWith(TypeError)
+  })
+
+  it('should be rejected with "sources should be a non-empty string"', async () => {
+    consolidateGlobToFile().should.be.rejectedWith(
+      'sources should be a non-empty string'
+    )
+  })
 })

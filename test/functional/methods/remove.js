@@ -2,6 +2,6 @@ import fs from 'fs-extra-promise'
 
 export default remove
 
-function remove(file) {
+function remove (file) {
   return fs.removeAsync(file)
 }

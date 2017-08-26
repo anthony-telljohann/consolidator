@@ -1,20 +1,28 @@
 import { consolidate } from 'consolidator'
 import { SOURCES, DESTINATION } from 'constants'
-import is from 'is'
-import test from 'ava'
 
-test('is a function', async t => {
-  t.true(is.fn(consolidate))
-})
+describe('consolidate', () => {
+  it('should be a function', async () => {
+    consolidate.should.be.a.Function()
+  })
 
-test('returns a Promise', async t => {
-  t.true(is.instance(consolidate(SOURCES.GLOB, DESTINATION.FILE), Promise))
-})
+  it('should return a Promise', async () => {
+    consolidate(SOURCES.GLOB, DESTINATION.FILE).should.be.a.Promise()
+  })
 
-test('resolves undefined', async t => {
-  t.true(is.undef(await consolidate(SOURCES.GLOB, DESTINATION.FILE)))
-})
+  it('should be fulfilled with undefined', async () => {
+    consolidate(SOURCES.GLOB, DESTINATION.FILE).should.be.fulfilledWith(
+      undefined
+    )
+  })
 
-test('throws TypeError', async t => {
-  await t.throws(consolidate({}, {}))
+  it('should be rejected with TypeError', async () => {
+    consolidate().should.be.rejectedWith(TypeError)
+  })
+
+  it('should be rejected with "sources should be an array or a non-empty string"', async () => {
+    consolidate().should.be.rejectedWith(
+      'sources should be an array or a non-empty string'
+    )
+  })
 })

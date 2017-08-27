@@ -25,20 +25,9 @@ const SHOULD_INCLUDE_SHOULD_BE_A_STRING = new RegExp(SHOULD_BE_A_STRING)
 const SHOULD_INCLUDE_SHOULD_BE_DEFINED = new RegExp(SHOULD_BE_DEFINED)
 const SHOULD_INCLUDE_SHOULD_NOT_BE_EMPTY = new RegExp(SHOULD_NOT_BE_EMPTY)
 
-console.log('should not exist', should.not.exist())
-
 describe(`consolidator`, () => {
   it(`should consolidate`, async () => {
     consolidator.should.have.property('consolidate')
-  })
-
-  describe(`consolidate`, () => {
-    it(`should be a function`, async () => {
-      consolidator.consolidate.should.be.a.Function
-    })
-    it(`should return a promise`, async () => {
-      consolidator.consolidate().should.be.a.Promise
-    })
   })
 
   describe(`consolidating`, () => {

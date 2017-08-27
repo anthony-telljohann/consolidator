@@ -34,7 +34,24 @@
     },
     "test": {
       "presets": ["@ava/stage-4"],
-      "plugins": ["istanbul"]
+      "plugins": [
+        [
+          "module-resolver",
+          {
+            "root": [
+              "./"
+            ],
+            "alias": {
+              "consolidator": "/lib/consolidator.js",
+              "constants": "/test/helpers/constants",
+              "concatenate": "/lib/concatenate",
+              "consolidate": "/lib/consolidate",
+              "validate": "/lib/validate"
+            }
+          }
+        ],
+        ["istanbul"]
+      ]
     }
   }
 }

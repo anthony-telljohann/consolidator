@@ -27,13 +27,12 @@
     "precommit": "npm run build",
     "prepublishOnly": "npm test",
     "prepush": "npm run build",
-    "pretest": "npm run build && npm run lint:test",
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
-    "test": "npm run test:unit && npm run test:functional",
+    "test": "cross-env BABEL_ENV=test nyc mocha",
     "test:functional": "cross-env BABEL_ENV=test nyc mocha test/functional/**/*.js",
-    "test:unit": "cross-env BABEL_ENV=test nyc ava test/unit/**/*.js",
+    "test:unit": "cross-env BABEL_ENV=test nyc mocha test/unit/**/*.js",
     "watch": "cross-env BABEL_ENV=test ava --watch"
   },
   "repository": {
@@ -99,7 +98,8 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-prettier": "^0.2.0",
     "rollup-watch": "^4.3.1",
-    "semantic-release": "^7.0.2"
+    "semantic-release": "^7.0.2",
+    "should": "^11.2.1"
   },
   "dependencies": {
     "async-file": "^2.0.2",

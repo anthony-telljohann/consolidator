@@ -5,9 +5,9 @@ import glob from 'glob-promise'
 
 async function concatenateDataToFile$1(sourceFileData, destinationFile) {
   if (!is.empty(sourceFileData.trim())) {
-    if (!await fs.exists(destinationFile)) {
-      let destinationFileDirectory = path.dirname(destinationFile)
-      await fs.createDirectory(destinationFileDirectory)
+    let destinationDirectory = path.dirname(destinationFile)
+    if (!await fs.exists(destinationDirectory)) {
+      await fs.createDirectory(destinationDirectory)
     }
     return fs.appendFile(destinationFile, sourceFileData)
   }

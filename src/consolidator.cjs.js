@@ -104,7 +104,7 @@ var possibleConstructorReturn = function(self, call) {
 var concatenateDataToFile = (function() {
   var _ref = asyncToGenerator(
     regeneratorRuntime.mark(function _callee(sourceFileData, destinationFile) {
-      var destinationFileDirectory
+      var destinationDirectory
       return regeneratorRuntime.wrap(
         function _callee$(_context) {
           while (1) {
@@ -115,18 +115,18 @@ var concatenateDataToFile = (function() {
                   break
                 }
 
-                _context.next = 3
-                return fs.exists(destinationFile)
+                destinationDirectory = path.dirname(destinationFile)
+                _context.next = 4
+                return fs.exists(destinationDirectory)
 
-              case 3:
+              case 4:
                 if (_context.sent) {
                   _context.next = 7
                   break
                 }
 
-                destinationFileDirectory = path.dirname(destinationFile)
                 _context.next = 7
-                return fs.createDirectory(destinationFileDirectory)
+                return fs.createDirectory(destinationDirectory)
 
               case 7:
                 return _context.abrupt(

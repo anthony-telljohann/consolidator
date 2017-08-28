@@ -5,7 +5,7 @@ import randomatic from 'randomatic'
 import consolidating from './consolidating.assertions.js'
 
 async function createDestinationDirectory () {
-  return fs.createDirectory('./destination')
+  await fs.createDirectory('./destination')
 }
 
 async function createSourcesDirectory () {
@@ -29,11 +29,34 @@ async function removeSourcesDirectory () {
 }
 
 describe(`consolidating glob to file`, () => {
+  //set by something
+  beforeEach(async function ()  {
+    this.preConsolidated = {}
+    this.preConsolidated.destinationFile = {}
+    this.preConsolidated.sourceFiles = []
+    this.postConsolidated = {}
+    this.postConsolidated.destinationFile = {}
+    this.postConsolidated.sourceFiles = []
+  })
+
+  //set by fixture
   beforeEach(async () => {
     await Promise.all([createDestinationDirectory(), createSourcesDirectory()])
     await createRandomSourceFiles()
-    return consolidateGlobToFile('./sources/*', '/destination/consolidated')
   })
+  //set by ??
+  beforeEach(async function () {
+    this.before = await Promise.all([
+      fs.readTextFile('./sources/source1'),
+      fs.readTextFile('./sources/source2'),
+      fs.readTextFile('./sources/source3'),
+    ])
+  })
+
+  beforeEach(async () => {
+    await consolidateGlobToFile('./sources/*', './destination/consolidated')
+  })
+
 
   // consolidating.shouldRemoveEverySourceFile()
   consolidating.shouldCreateDestinationFile()

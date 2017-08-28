@@ -2,6 +2,7 @@
 --colors
 --sort
 --require should
+--require babel-register
 --ui bdd
 --es_staging
 --reporter spec

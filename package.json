@@ -30,9 +30,9 @@
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
-    "test": "cross-env BABEL_ENV=test nyc mocha",
-    "test:functional": "cross-env BABEL_ENV=test nyc mocha test/functional/**/*.js",
-    "test:unit": "cross-env BABEL_ENV=test nyc mocha test/unit/**/*.js",
+    "test": "cross-env BABEL_ENV=test nyc mocha test/**/*.spec.js",
+    "test:functional": "cross-env BABEL_ENV=test nyc mocha test/functional/**/*.spec.js",
+    "test:unit": "cross-env BABEL_ENV=test nyc mocha test/unit/**/*.spec.js",
     "watch": "cross-env BABEL_ENV=test ava --watch"
   },
   "repository": {

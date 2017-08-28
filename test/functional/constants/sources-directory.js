@@ -1,3 +1,3 @@
-const SOURCES_DIRECTORY = 'sources/'
+const SOURCES_DIRECTORY = './sources/'
 
 export default SOURCES_DIRECTORY

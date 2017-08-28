@@ -1,3 +1,4 @@
+import fs from 'async-file'
 import randomatic from 'randomatic'
 
 import read from '../methods/read.js'
@@ -25,15 +26,14 @@ export default {
       done()
     })
   },
-  createRandomDestinationFile (done) {
-    createRandomDestinationFile().then(function () {
-      done()
-    })
+  async createRandomDestinationFile () {
+    return createRandomFile(DESTINATION_FILE)
   },
-  createRandomSourceFiles (done) {
-    createRandomSourceFiles().then(function () {
-      done()
-    })
+  async createRandomSourceFiles () {
+    return createRandomFile(SOURCES_DIRECTORY + randomatic('A', 10))
+  },
+  async createDestinationDirectory () {
+    return fs.createDirectory(DESTINATION_DIRECTORY)
   },
   readPostConsolidatedDestinationFile (done) {
     readDestinationFile()
@@ -61,6 +61,11 @@ export default {
   },
   removeDestinationDirectory (done) {
     remove(DESTINATION_DIRECTORY).then(function () {
+      done()
+    })
+  },
+  removeDestinationFile (done) {
+    remove(DESTINATION_FILE).then(function () {
       done()
     })
   },
@@ -110,10 +115,6 @@ function createEmptySourceFiles () {
 function createRandomFile (file) {
   let data = randomatic('*', 10)
   return write(file, data)
-}
-
-function createRandomDestinationFile () {
-  return createRandomFile(DESTINATION_FILE)
 }
 
 function createRandomSourceFile () {

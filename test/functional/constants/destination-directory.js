@@ -1,3 +1,3 @@
-const DESTINATION_DIRECTORY = 'destination/'
+const DESTINATION_DIRECTORY = './destination/'
 
 export default DESTINATION_DIRECTORY

@@ -97,7 +97,7 @@
     "rollup-plugin-istanbul": "^1.1.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-prettier": "^0.2.0",
+    "rollup-plugin-prettier": "^0.3.0",
     "rollup-watch": "^4.3.1",
     "semantic-release": "^7.0.2"
   },

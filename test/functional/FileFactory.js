@@ -1,7 +1,7 @@
 import fs from 'async-file'
 import path from 'path'
 
-class FileFactory {
+export default class FileFactory {
   constructor(filePath) {
     this.basename = path.basename(filePath)
     this.directory = path.dirname(filePath)

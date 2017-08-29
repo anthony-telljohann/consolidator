@@ -1,6 +1,6 @@
 import fs from 'async-file'
 import path from 'path'
-import { consolidateGlobToFile } from 'consolidator'
+import { consolidateFilesToFile } from 'consolidator'
 import randomatic from 'randomatic'
 import assert from './assertions.js'
 
@@ -35,7 +35,7 @@ async function removeSourcesDirectory () {
   return fs.delete('./sources')
 }
 
-describe(`consolidating glob to file`, () => {
+describe(`consolidating files to file`, () => {
   // context.reset()
   beforeEach(async function () {
     this.before = {}
@@ -92,7 +92,7 @@ describe(`consolidating glob to file`, () => {
   })
 
   beforeEach(async function () {
-    await consolidateGlobToFile('./sources/*', './destination/consolidated')
+    await consolidateFilesToFile(SOURCE_FILES, DESTINATION_FILE)
   })
 
   beforeEach(async function () {

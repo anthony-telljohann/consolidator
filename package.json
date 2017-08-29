@@ -32,8 +32,8 @@
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
     "test": "cross-env BABEL_ENV=test nyc mocha test/**/*.spec.js",
     "test:functional": "cross-env BABEL_ENV=test mocha --watch test/functional/**/*.spec.js",
-    "test:unit": "cross-env BABEL_ENV=test mocha --watch test/unit/**/*.spec.js",
-    "watch": "cross-env BABEL_ENV=test mocha --watch test/**/*.spec.js"
+    "test:unit": "cross-env BABEL_ENV=test nyc mocha --watch test/unit/**/*.spec.js",
+    "watch": "cross-env BABEL_ENV=test nyc mocha --watch test/**/*.spec.js"
   },
   "repository": {
     "type": "git",

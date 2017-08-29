@@ -1,15 +1,15 @@
 import randomatic from 'randomatic'
 
 export default class DestinationFactory {
-  constructor(){
+  constructor () {
     this.path = undefined
     this.data = undefined
   }
-  destination(path, data) {
+  destination () {
     this.path = path
     this.data = data
   }
-  create() {
+  async create (path, data) {
     await fs.createDirectory('./destination')
   }
 }

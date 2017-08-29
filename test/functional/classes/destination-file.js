@@ -5,11 +5,11 @@ import path from 'path'
 const DIRECTORY = './destination'
 
 export default class DestinationFile extends File {
-  constructor(basename) {
+  constructor (basename) {
     super(path.join(DIRECTORY, basename))
   }
-  createDirectory() {
-    if(!await fs.exists(this.directory)){
+  async createDirectory () {
+    if (!await fs.exists(this.directory)) {
       await fs.createDirectory(this.directory)
     }
   }

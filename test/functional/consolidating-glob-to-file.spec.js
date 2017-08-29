@@ -67,63 +67,65 @@ describe(`consolidating glob to file`, () => {
   beforeEach(async function () {
     try {
       this.before.destinationFile.exists = await fs.exists(DESTINATION_FILE)
-    } catch(e) {
+    } catch (e) {
       this.before.destinationFile.exists = false
     }
     try {
       this.before.destinationFile.data = await fs.readTextFile(DESTINATION_FILE)
-    } catch(e) {
+    } catch (e) {
       this.before.destinationFile.data = null
     }
-    this.before.sourceFiles = await Promise.all(SOURCE_FILES.map(async (file) => {
-      let sourceFile = {}
-      try {
-        sourceFile.exists = await fs.exists(file)
-      } catch(e) {
-        sourceFile.exists = false
-      }
-      try {
-        sourceFile.data = await fs.readTextFile(file)
-      } catch(e) {
-        sourceFile.data = null
-      }
-      return sourceFile
-    }))
+    this.before.sourceFiles = await Promise.all(
+      SOURCE_FILES.map(async file => {
+        let sourceFile = {}
+        try {
+          sourceFile.exists = await fs.exists(file)
+        } catch (e) {
+          sourceFile.exists = false
+        }
+        try {
+          sourceFile.data = await fs.readTextFile(file)
+        } catch (e) {
+          sourceFile.data = null
+        }
+        return sourceFile
+      })
+    )
   })
 
   beforeEach(async function () {
     await consolidateGlobToFile('./sources/*', './destination/consolidated')
   })
 
-  beforeEach(async function () {
-
-  })
+  beforeEach(async function () {})
 
   beforeEach(async function () {
     try {
       this.after.destinationFile.exists = await fs.exists(DESTINATION_FILE)
-    } catch(e) {
+    } catch (e) {
       this.after.destinationFile.exists = false
     }
     try {
       this.after.destinationFile.data = await fs.readTextFile(DESTINATION_FILE)
-    } catch(e) {
+    } catch (e) {
       this.after.destinationFile.data = null
     }
-    this.after.sourceFiles = await Promise.all(SOURCE_FILES.map(async (file) => {
-      let sourceFile = {}
-      try {
-        sourceFile.exists = await fs.exists(file)
-      } catch(e) {
-        sourceFile.exists = false
-      }
-      try {
-        sourceFile.data = await fs.readTextFile(file)
-      } catch(e) {
-        sourceFile.data = null
-      }
-      return sourceFile
-    }))
+    this.after.sourceFiles = await Promise.all(
+      SOURCE_FILES.map(async file => {
+        let sourceFile = {}
+        try {
+          sourceFile.exists = await fs.exists(file)
+        } catch (e) {
+          sourceFile.exists = false
+        }
+        try {
+          sourceFile.data = await fs.readTextFile(file)
+        } catch (e) {
+          sourceFile.data = null
+        }
+        return sourceFile
+      })
+    )
   })
 
   assert.shouldConsolidate()

@@ -1,33 +1,46 @@
-import randomatic from 'randomatic'
 import fs from 'async-file'
 import path from 'path'
+import randomatic from 'randomatic'
 
 export default class File {
-  constructor (filePath) {
-    let file = path.parse(filePath)
-    this.path = path.normalize(filePath)
-    this.directory = file.dir
-    this.name = file.base
-    this.data = undefined
+  constructor(filePath) {
+    this.basename = path.basename(filePath)
+    this.directory = path.dirname(filePath)
+    this.path = filePath
   }
-  async create (data = '') {
-    if (!await fs.exists(this.directory)) {
-      await fs.createDirectory(this.directory)
-    }
-    return fs.writeTextFile(this.path, data)
+  async createDirectory() {
+    return fs.createDirectory(this.directory)
   }
-  async createRandom () {
-    return this.create(randomatic('*', 100))
+  async mock() {
+    return this.write(randomatic('*', 100))
   }
-  async read () {
-    if (await fs.exists(this.path)) {
-      this.data = await fs.readTextFile(this.path)
-    }
-  }
-  async remove () {
+  async remove() {
     return fs.delete(this.path)
   }
-  async touch () {
-    return this.create()
+  async removeDirectory() {
+    return fs.delete(this.directory)
+  }
+  async read() {
+    let file = {}
+    try {
+      file.exists = await fs.exists(this.path)
+    } catch (e) {
+      file.exists = false
+    }
+    try {
+      file.data = await fs.readTextFile(this.path)
+    } catch (e) {
+      file.data = null
+    }
+    return file
+  }
+  async touch() {
+    return this.write('')
+  }
+  async write(data) {
+    if (!await fs.exists(this.directory)) {
+      await this.createDirectory()
+    }
+    return fs.writeTextFile(this.path, data)
   }
 }

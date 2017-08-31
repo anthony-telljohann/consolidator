@@ -2,5 +2,5 @@
 .nyc_output
 coverage
 coverage.lcov
-dist
+src
 node_modules

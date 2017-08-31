@@ -1,19 +1,19 @@
 import File from './file.js'
 
 export default class Files extends Array {
-  async mock() {
+  async mock () {
     return Promise.all(this.map(file => file.mock()))
   }
-  async remove() {
+  async remove () {
     return Promise.all(this.map(file => file.remove()))
   }
-  async removeDirectory() {
+  async removeDirectory () {
     return Promise.all(this.map(file => file.removeDirectory()))
   }
-  async read() {
+  async read () {
     return Promise.all(this.map(file => file.read()))
   }
-  async touch() {
+  async touch () {
     return Promise.all(this.map(file => file.touch()))
   }
 }

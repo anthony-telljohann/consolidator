@@ -3,7 +3,7 @@ import fs from 'async-file'
 import path from 'path'
 import glob from 'glob-promise'
 
-async function concatenateDataToFile$1(sourceFileData, destinationFile) {
+async function concatenateDataToFile$1 (sourceFileData, destinationFile) {
   if (!is.empty(sourceFileData.trim())) {
     let destinationDirectory = path.dirname(destinationFile)
     if (!await fs.exists(destinationDirectory)) {
@@ -13,7 +13,7 @@ async function concatenateDataToFile$1(sourceFileData, destinationFile) {
   }
 }
 
-async function concatenateFileToFile(sourceFile, destinationFile) {
+async function concatenateFileToFile (sourceFile, destinationFile) {
   if (await fs.exists(sourceFile)) {
     return concatenateDataToFile$1(
       await fs.readTextFile(sourceFile),
@@ -27,13 +27,13 @@ var concatenate = {
   fileToFile: concatenateFileToFile
 }
 
-async function consolidateFileToFile$1(sourceFile, destinationFile) {
+async function consolidateFileToFile$1 (sourceFile, destinationFile) {
   await fs.delete(destinationFile)
   await concatenate.fileToFile(sourceFile, destinationFile)
   return fs.delete(sourceFile)
 }
 
-async function consolidateFilesToFile$2(sourceFiles, destinationFile) {
+async function consolidateFilesToFile$2 (sourceFiles, destinationFile) {
   await fs.delete(destinationFile)
   sourceFiles = sourceFiles.filter(is.string)
   if (!is.empty(sourceFiles)) {
@@ -46,7 +46,7 @@ async function consolidateFilesToFile$2(sourceFiles, destinationFile) {
   }
 }
 
-async function consolidateGlobToFile$1(sourcesGlob, destinationFile) {
+async function consolidateGlobToFile$1 (sourcesGlob, destinationFile) {
   return consolidateFilesToFile$2(await glob(sourcesGlob), destinationFile)
 }
 
@@ -60,7 +60,7 @@ const SHOULD_BE_AN_ARRAY = `should be an array`
 
 var IsArray = Base =>
   class extends Base {
-    isArray(value) {
+    isArray (value) {
       if (!is.array(value)) {
         throw new TypeError(`${this.name} ${SHOULD_BE_AN_ARRAY}`)
       }
@@ -72,7 +72,7 @@ const SHOULD_BE_AN_ARRAY_OR_A_NON_EMPTY_STRING =
 
 var IsConsolidatable = Base =>
   class extends Base {
-    isConsolidatable(value) {
+    isConsolidatable (value) {
       if (!is.array(value) && !(is.string(value) && !is.empty(value.trim()))) {
         throw new TypeError(
           `${this.name} ${SHOULD_BE_AN_ARRAY_OR_A_NON_EMPTY_STRING}`
@@ -85,7 +85,7 @@ const SHOULD_BE_A_NON_EMPTY_STRING = `should be a non-empty string`
 
 var IsString = Base =>
   class extends Base {
-    isString(value) {
+    isString (value) {
       if (!(is.string(value) && !is.empty(value.trim()))) {
         throw new TypeError(`${this.name} ${SHOULD_BE_A_NON_EMPTY_STRING}`)
       }
@@ -93,7 +93,7 @@ var IsString = Base =>
   }
 
 class Validator {
-  constructor(name) {
+  constructor (name) {
     this.name = name
   }
 }
@@ -101,13 +101,13 @@ class Validator {
 class ConsolidatableValidator extends IsConsolidatable(
   IsString(IsArray(Validator))
 ) {
-  constructor(name) {
+  constructor (name) {
     super(name)
   }
 }
 
 class StringValidator extends IsString(Validator) {
-  constructor(name) {
+  constructor (name) {
     super(name)
   }
 }
@@ -122,7 +122,7 @@ var _validate = {
   sources
 }
 
-async function consolidate(sources, destination) {
+async function consolidate (sources, destination) {
   _validate.sources.isConsolidatable(sources)
   _validate.destination.isString(destination)
   let consolidate
@@ -134,19 +134,19 @@ async function consolidate(sources, destination) {
   return consolidate
 }
 
-async function consolidateGlobToFile(sources, destination) {
+async function consolidateGlobToFile (sources, destination) {
   _validate.sources.isString(sources)
   _validate.destination.isString(destination)
   return _consolidate.globToFile(sources, destination)
 }
 
-async function consolidateFilesToFile(sources, destination) {
+async function consolidateFilesToFile (sources, destination) {
   _validate.sources.isArray(sources)
   _validate.destination.isString(destination)
   return _consolidate.filesToFile(sources, destination)
 }
 
-async function consolidateFileToFile(source, destination) {
+async function consolidateFileToFile (source, destination) {
   _validate.source.isString(source)
   _validate.destination.isString(destination)
   return _consolidate.fileToFile(source, destination)

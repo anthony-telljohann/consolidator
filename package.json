@@ -7,33 +7,29 @@
   "browser": "src/consolidator.umd.js",
   "scripts": {
     "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "cross-env BABEL_ENV=cjs rollup -c .rollup",
-    "build:es": "cross-env BABEL_ENV=es rollup -c .rollup",
-    "clean": "npm run clean:coverage && npm run clean:nyc_output && npm run clean:dist",
+    "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
+    "build:es": "cross-env BABEL_ENV=es rollup -c rollup.config.js",
+    "clean": "npm run clean:coverage && npm run clean:nyc_output && npm run clean:src",
     "clean:coverage": "rm -rf coverage",
-    "clean:dist": "rm -rf dist",
     "clean:nyc_output": "rm -rf .nyc_output",
+    "clean:src": "rm -rf src",
     "coverage:html": "nyc report --reporter=html",
     "coverage:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "coverage:upload": "npm run coverage:lcov && codecov",
+    "format": "prettier-standard '**/*.js'",
     "git:commit": "git-cz",
-    "lint": "npm run lint:lib && npm run lint:test",
-    "lint:dist": "prettier-standard 'dist/**/*.js'",
-    "lint:lib": "prettier-standard 'lib/**/*.js'",
-    "lint:test": "prettier-standard 'test/**/*.js'",
-    "postbuild": "npm run lint:dist",
+    "postbuild": "npm run test",
     "posttest": "npm run coverage:html",
-    "prebuild": "npm run clean && npm run lint:lib",
+    "prebuild": "npm run clean",
     "precommit": "npm run build",
-    "prepublishOnly": "npm test",
+    "prepublishOnly": "npm run build",
     "prepush": "npm run build",
+    "pretest": "npm run format",
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
     "test": "cross-env BABEL_ENV=test nyc mocha test/**/*.spec.js",
-    "test:functional": "cross-env BABEL_ENV=test mocha --watch test/functional/**/*.spec.js",
-    "test:unit": "cross-env BABEL_ENV=test nyc mocha --watch test/unit/**/*.spec.js",
-    "watch": "cross-env BABEL_ENV=test nyc mocha --watch test/**/*.spec.js"
+    "test:watch": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -86,20 +82,20 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
     "nyc": "^11.1.0",
-    "prettier": "^1.5.3",
+    "prettier": "^1.6.1",
     "prettier-standard": "^6.0.0",
     "randomatic": "^1.1.7",
     "rollup": "^0.49.2",
     "rollup-plugin-alias": "^1.3.1",
     "rollup-plugin-babel": "^3.0.1",
-    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-commonjs": "^8.2.0",
     "rollup-plugin-istanbul": "^1.1.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-prettier": "^0.3.0",
     "rollup-watch": "^4.3.1",
     "semantic-release": "^7.0.2",
-    "should": "^11.2.1"
+    "should": "^12.0.0"
   },
   "dependencies": {
     "async-file": "^2.0.2",
@@ -109,51 +105,12 @@
   "files": [
     "dist"
   ],
-  "ava": {
-    "babel": {
-      "plugins": [
-        [
-          "module-resolver",
-          {
-            "root": [
-              "./"
-            ],
-            "alias": {
-              "consolidator": "/lib/consolidator.js",
-              "constants": "/test/helpers/constants",
-              "macros": "/test/helpers/macros"
-            }
-          }
-        ]
-      ]
-    },
-    "require": [
-      "babel-register"
-    ],
-    "color": true,
-    "concurrency": 25,
-    "verbose": true,
-    "failFast": false,
-    "failWithoutAssertions": true,
-    "powerAssert": true
-  },
   "nyc": {
     "require": [
       "babel-register"
     ],
     "sourceMap": false,
     "instrument": false
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "none",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": false,
-    "parser": "babylon"
   },
   "release": {
     "debug": false,

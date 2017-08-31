@@ -2,7 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true })
 
-function _interopDefault(ex) {
+function _interopDefault (ex) {
   return ex && typeof ex === 'object' && 'default' in ex ? ex['default'] : ex
 }
 
@@ -11,11 +11,129 @@ var fs = _interopDefault(require('async-file'))
 var path = _interopDefault(require('path'))
 var glob = _interopDefault(require('glob-promise'))
 
-var asyncToGenerator = function(fn) {
-  return function() {
+var babelHelpers = {}
+
+var asyncGenerator = (function () {
+  function AwaitValue (value) {
+    this.value = value
+  }
+
+  function AsyncGenerator (gen) {
+    var front, back
+
+    function send (key, arg) {
+      return new Promise(function (resolve, reject) {
+        var request = {
+          key: key,
+          arg: arg,
+          resolve: resolve,
+          reject: reject,
+          next: null
+        }
+
+        if (back) {
+          back = back.next = request
+        } else {
+          front = back = request
+          resume(key, arg)
+        }
+      })
+    }
+
+    function resume (key, arg) {
+      try {
+        var result = gen[key](arg)
+        var value = result.value
+
+        if (value instanceof AwaitValue) {
+          Promise.resolve(value.value).then(
+            function (arg) {
+              resume('next', arg)
+            },
+            function (arg) {
+              resume('throw', arg)
+            }
+          )
+        } else {
+          settle(result.done ? 'return' : 'normal', result.value)
+        }
+      } catch (err) {
+        settle('throw', err)
+      }
+    }
+
+    function settle (type, value) {
+      switch (type) {
+        case 'return':
+          front.resolve({
+            value: value,
+            done: true
+          })
+          break
+
+        case 'throw':
+          front.reject(value)
+          break
+
+        default:
+          front.resolve({
+            value: value,
+            done: false
+          })
+          break
+      }
+
+      front = front.next
+
+      if (front) {
+        resume(front.key, front.arg)
+      } else {
+        back = null
+      }
+    }
+
+    this._invoke = send
+
+    if (typeof gen.return !== 'function') {
+      this.return = undefined
+    }
+  }
+
+  if (typeof Symbol === 'function' && Symbol.asyncIterator) {
+    AsyncGenerator.prototype[Symbol.asyncIterator] = function () {
+      return this
+    }
+  }
+
+  AsyncGenerator.prototype.next = function (arg) {
+    return this._invoke('next', arg)
+  }
+
+  AsyncGenerator.prototype.throw = function (arg) {
+    return this._invoke('throw', arg)
+  }
+
+  AsyncGenerator.prototype.return = function (arg) {
+    return this._invoke('return', arg)
+  }
+
+  return {
+    wrap: function (fn) {
+      return function () {
+        return new AsyncGenerator(fn.apply(this, arguments))
+      }
+    },
+    await: function (value) {
+      return new AwaitValue(value)
+    }
+  }
+})()
+
+var asyncToGenerator = function (fn) {
+  return function () {
     var gen = fn.apply(this, arguments)
-    return new Promise(function(resolve, reject) {
-      function step(key, arg) {
+    return new Promise(function (resolve, reject) {
+      function step (key, arg) {
         try {
           var info = gen[key](arg)
           var value = info.value
@@ -28,10 +146,10 @@ var asyncToGenerator = function(fn) {
           resolve(value)
         } else {
           return Promise.resolve(value).then(
-            function(value) {
+            function (value) {
               step('next', value)
             },
-            function(err) {
+            function (err) {
               step('throw', err)
             }
           )
@@ -43,14 +161,14 @@ var asyncToGenerator = function(fn) {
   }
 }
 
-var classCallCheck = function(instance, Constructor) {
+var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError('Cannot call a class as a function')
   }
 }
 
-var createClass = (function() {
-  function defineProperties(target, props) {
+var createClass = (function () {
+  function defineProperties (target, props) {
     for (var i = 0; i < props.length; i++) {
       var descriptor = props[i]
       descriptor.enumerable = descriptor.enumerable || false
@@ -60,14 +178,14 @@ var createClass = (function() {
     }
   }
 
-  return function(Constructor, protoProps, staticProps) {
+  return function (Constructor, protoProps, staticProps) {
     if (protoProps) defineProperties(Constructor.prototype, protoProps)
     if (staticProps) defineProperties(Constructor, staticProps)
     return Constructor
   }
 })()
 
-var inherits = function(subClass, superClass) {
+var inherits = function (subClass, superClass) {
   if (typeof superClass !== 'function' && superClass !== null) {
     throw new TypeError(
       'Super expression must either be null or a function, not ' +
@@ -83,13 +201,14 @@ var inherits = function(subClass, superClass) {
       configurable: true
     }
   })
-  if (superClass)
+  if (superClass) {
     Object.setPrototypeOf
       ? Object.setPrototypeOf(subClass, superClass)
       : (subClass.__proto__ = superClass)
+  }
 }
 
-var possibleConstructorReturn = function(self, call) {
+var possibleConstructorReturn = function (self, call) {
   if (!self) {
     throw new ReferenceError(
       "this hasn't been initialised - super() hasn't been called"
@@ -101,12 +220,17 @@ var possibleConstructorReturn = function(self, call) {
     : self
 }
 
-var concatenateDataToFile = (function() {
+babelHelpers
+
+var concatenateDataToFile = (function () {
   var _ref = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee(sourceFileData, destinationFile) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee (
+      sourceFileData,
+      destinationFile
+    ) {
       var destinationDirectory
       return regeneratorRuntime.wrap(
-        function _callee$(_context) {
+        function _callee$ (_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
@@ -146,16 +270,19 @@ var concatenateDataToFile = (function() {
     })
   )
 
-  return function concatenateDataToFile(_x, _x2) {
+  return function concatenateDataToFile (_x, _x2) {
     return _ref.apply(this, arguments)
   }
 })()
 
-var concatenateFileToFile = (function() {
+var concatenateFileToFile = (function () {
   var _ref = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee(sourceFile, destinationFile) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee (
+      sourceFile,
+      destinationFile
+    ) {
       return regeneratorRuntime.wrap(
-        function _callee$(_context) {
+        function _callee$ (_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
@@ -192,7 +319,7 @@ var concatenateFileToFile = (function() {
     })
   )
 
-  return function concatenateFileToFile(_x, _x2) {
+  return function concatenateFileToFile (_x, _x2) {
     return _ref.apply(this, arguments)
   }
 })()
@@ -202,11 +329,14 @@ var concatenate = {
   fileToFile: concatenateFileToFile
 }
 
-var consolidateFileToFile$1 = (function() {
+var consolidateFileToFile$1 = (function () {
   var _ref = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee(sourceFile, destinationFile) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee (
+      sourceFile,
+      destinationFile
+    ) {
       return regeneratorRuntime.wrap(
-        function _callee$(_context) {
+        function _callee$ (_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
@@ -232,18 +362,21 @@ var consolidateFileToFile$1 = (function() {
     })
   )
 
-  return function consolidateFileToFile(_x, _x2) {
+  return function consolidateFileToFile (_x, _x2) {
     return _ref.apply(this, arguments)
   }
 })()
 
-var consolidateFilesToFile$1 = (function() {
+var consolidateFilesToFile$1 = (function () {
   var _ref = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee2(sourceFiles, destinationFile) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee2 (
+      sourceFiles,
+      destinationFile
+    ) {
       var _this = this
 
       return regeneratorRuntime.wrap(
-        function _callee2$(_context2) {
+        function _callee2$ (_context2) {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
@@ -261,11 +394,13 @@ var consolidateFilesToFile$1 = (function() {
                 _context2.next = 6
                 return Promise.all(
                   sourceFiles.map(
-                    (function() {
+                    (function () {
                       var _ref2 = asyncToGenerator(
-                        regeneratorRuntime.mark(function _callee(sourceFile) {
+                        /* #__PURE__ */ regeneratorRuntime.mark(function _callee (
+                          sourceFile
+                        ) {
                           return regeneratorRuntime.wrap(
-                            function _callee$(_context) {
+                            function _callee$ (_context) {
                               while (1) {
                                 switch ((_context.prev = _context.next)) {
                                   case 0:
@@ -293,7 +428,7 @@ var consolidateFilesToFile$1 = (function() {
                         })
                       )
 
-                      return function(_x3) {
+                      return function (_x3) {
                         return _ref2.apply(this, arguments)
                       }
                     })()
@@ -312,16 +447,19 @@ var consolidateFilesToFile$1 = (function() {
     })
   )
 
-  return function consolidateFilesToFile(_x, _x2) {
+  return function consolidateFilesToFile (_x, _x2) {
     return _ref.apply(this, arguments)
   }
 })()
 
-var consolidateGlobToFile$1 = (function() {
+var consolidateGlobToFile$1 = (function () {
   var _ref = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee(sourcesGlob, destinationFile) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee (
+      sourcesGlob,
+      destinationFile
+    ) {
       return regeneratorRuntime.wrap(
-        function _callee$(_context) {
+        function _callee$ (_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
@@ -349,7 +487,7 @@ var consolidateGlobToFile$1 = (function() {
     })
   )
 
-  return function consolidateGlobToFile(_x, _x2) {
+  return function consolidateGlobToFile (_x, _x2) {
     return _ref.apply(this, arguments)
   }
 })()
@@ -362,11 +500,11 @@ var _consolidate = {
 
 var SHOULD_BE_AN_ARRAY = `should be an array`
 
-var IsArray = function(Base) {
-  return (function(_Base) {
+var IsArray = function (Base) {
+  return (function (_Base) {
     inherits(_class, _Base)
 
-    function _class() {
+    function _class () {
       classCallCheck(this, _class)
       return possibleConstructorReturn(
         this,
@@ -378,7 +516,7 @@ var IsArray = function(Base) {
     createClass(_class, [
       {
         key: 'isArray',
-        value: function isArray(value) {
+        value: function isArray (value) {
           if (!is.array(value)) {
             throw new TypeError(`${this.name} ${SHOULD_BE_AN_ARRAY}`)
           }
@@ -392,11 +530,11 @@ var IsArray = function(Base) {
 var SHOULD_BE_AN_ARRAY_OR_A_NON_EMPTY_STRING =
   'should be an array or a non-empty string'
 
-var IsConsolidatable = function(Base) {
-  return (function(_Base) {
+var IsConsolidatable = function (Base) {
+  return (function (_Base) {
     inherits(_class, _Base)
 
-    function _class() {
+    function _class () {
       classCallCheck(this, _class)
       return possibleConstructorReturn(
         this,
@@ -408,7 +546,7 @@ var IsConsolidatable = function(Base) {
     createClass(_class, [
       {
         key: 'isConsolidatable',
-        value: function isConsolidatable(value) {
+        value: function isConsolidatable (value) {
           if (
             !is.array(value) &&
             !(is.string(value) && !is.empty(value.trim()))
@@ -426,11 +564,11 @@ var IsConsolidatable = function(Base) {
 
 var SHOULD_BE_A_NON_EMPTY_STRING = `should be a non-empty string`
 
-var IsString = function(Base) {
-  return (function(_Base) {
+var IsString = function (Base) {
+  return (function (_Base) {
     inherits(_class, _Base)
 
-    function _class() {
+    function _class () {
       classCallCheck(this, _class)
       return possibleConstructorReturn(
         this,
@@ -442,7 +580,7 @@ var IsString = function(Base) {
     createClass(_class, [
       {
         key: 'isString',
-        value: function isString(value) {
+        value: function isString (value) {
           if (!(is.string(value) && !is.empty(value.trim()))) {
             throw new TypeError(`${this.name} ${SHOULD_BE_A_NON_EMPTY_STRING}`)
           }
@@ -453,16 +591,16 @@ var IsString = function(Base) {
   })(Base)
 }
 
-var Validator = function Validator(name) {
+var Validator = function Validator (name) {
   classCallCheck(this, Validator)
 
   this.name = name
 }
 
-var ConsolidatableValidator = (function(_IsConsolidatable) {
+var ConsolidatableValidator = (function (_IsConsolidatable) {
   inherits(ConsolidatableValidator, _IsConsolidatable)
 
-  function ConsolidatableValidator(name) {
+  function ConsolidatableValidator (name) {
     classCallCheck(this, ConsolidatableValidator)
     return possibleConstructorReturn(
       this,
@@ -475,10 +613,10 @@ var ConsolidatableValidator = (function(_IsConsolidatable) {
   return ConsolidatableValidator
 })(IsConsolidatable(IsString(IsArray(Validator))))
 
-var StringValidator = (function(_IsString) {
+var StringValidator = (function (_IsString) {
   inherits(StringValidator, _IsString)
 
-  function StringValidator(name) {
+  function StringValidator (name) {
     classCallCheck(this, StringValidator)
     return possibleConstructorReturn(
       this,
@@ -500,12 +638,15 @@ var _validate = {
   sources
 }
 
-var consolidate = (function() {
+var consolidate = (function () {
   var _ref = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee(sources, destination) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee (
+      sources,
+      destination
+    ) {
       var consolidate
       return regeneratorRuntime.wrap(
-        function _callee$(_context) {
+        function _callee$ (_context) {
           while (1) {
             switch ((_context.prev = _context.next)) {
               case 0:
@@ -532,16 +673,19 @@ var consolidate = (function() {
     })
   )
 
-  return function consolidate(_x, _x2) {
+  return function consolidate (_x, _x2) {
     return _ref.apply(this, arguments)
   }
 })()
 
-var consolidateGlobToFile = (function() {
+var consolidateGlobToFile = (function () {
   var _ref2 = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee2(sources, destination) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee2 (
+      sources,
+      destination
+    ) {
       return regeneratorRuntime.wrap(
-        function _callee2$(_context2) {
+        function _callee2$ (_context2) {
           while (1) {
             switch ((_context2.prev = _context2.next)) {
               case 0:
@@ -564,16 +708,19 @@ var consolidateGlobToFile = (function() {
     })
   )
 
-  return function consolidateGlobToFile(_x3, _x4) {
+  return function consolidateGlobToFile (_x3, _x4) {
     return _ref2.apply(this, arguments)
   }
 })()
 
-var consolidateFilesToFile = (function() {
+var consolidateFilesToFile = (function () {
   var _ref3 = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee3(sources, destination) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee3 (
+      sources,
+      destination
+    ) {
       return regeneratorRuntime.wrap(
-        function _callee3$(_context3) {
+        function _callee3$ (_context3) {
           while (1) {
             switch ((_context3.prev = _context3.next)) {
               case 0:
@@ -596,16 +743,19 @@ var consolidateFilesToFile = (function() {
     })
   )
 
-  return function consolidateFilesToFile(_x5, _x6) {
+  return function consolidateFilesToFile (_x5, _x6) {
     return _ref3.apply(this, arguments)
   }
 })()
 
-var consolidateFileToFile = (function() {
+var consolidateFileToFile = (function () {
   var _ref4 = asyncToGenerator(
-    regeneratorRuntime.mark(function _callee4(source, destination) {
+    /* #__PURE__ */ regeneratorRuntime.mark(function _callee4 (
+      source,
+      destination
+    ) {
       return regeneratorRuntime.wrap(
-        function _callee4$(_context4) {
+        function _callee4$ (_context4) {
           while (1) {
             switch ((_context4.prev = _context4.next)) {
               case 0:
@@ -628,7 +778,7 @@ var consolidateFileToFile = (function() {
     })
   )
 
-  return function consolidateFileToFile(_x7, _x8) {
+  return function consolidateFileToFile (_x7, _x8) {
     return _ref4.apply(this, arguments)
   }
 })()

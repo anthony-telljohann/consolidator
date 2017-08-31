@@ -106,7 +106,10 @@
     "dist"
   ],
   "lint-staged": {
-    "*.js": ["prettier-standard", "git add"]
+    "*": [
+      "prettier --stdin-filepath",
+      "git add"
+    ]
   },
   "nyc": {
     "require": [

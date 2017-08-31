@@ -43,10 +43,9 @@
             ],
             "alias": {
               "consolidator": "/lib/consolidator.js",
-              "constants": "/test/helpers/constants",
-              "concatenate": "/lib/concatenate",
-              "consolidate": "/lib/consolidate",
-              "validate": "/lib/validate"
+              "constants": "/test/shared/constants/index.js",
+              "functional": "/test/functional",
+              "unit": "/test/unit"
             }
           }
         ],

@@ -1,11 +1,7 @@
 import { consolidate } from 'consolidator'
-import assert from './assertions.js'
-import File from './classes/file.js'
-import RandomFiles from './classes/random-files.js'
-
-const DESTINATION_FILE = './destination/consolidated.txt'
-const SOURCES_DIRECTORY = './sources/'
-const SOURCES_GLOB = `${SOURCES_DIRECTORY}*`
+import assert from 'functional/assertions'
+import { File, RandomFiles } from 'functional/classes'
+import { DESTINATION, SOURCES } from 'constants'
 
 function consolidateFiles() {
   beforeEach(async function() {
@@ -13,7 +9,7 @@ function consolidateFiles() {
     this.after = {}
     this.before.destinationFile = await this.destinationFile.read()
     this.before.sourceFiles = await this.sourceFiles.read()
-    await consolidate(SOURCES_GLOB, DESTINATION_FILE)
+    await consolidate(SOURCES.GLOB, DESTINATION.FILE)
     this.after.destinationFile = await this.destinationFile.read()
     this.after.sourceFiles = await this.sourceFiles.read()
   })
@@ -21,8 +17,8 @@ function consolidateFiles() {
 
 describe(`consolidating files to file`, () => {
   beforeEach(async function() {
-    this.destinationFile = new File(DESTINATION_FILE)
-    this.sourceFiles = new RandomFiles(SOURCES_DIRECTORY, 10)
+    this.destinationFile = new File(DESTINATION.FILE)
+    this.sourceFiles = new RandomFiles(SOURCES.DIRECTORY, 10)
     await this.destinationFile.removeDirectory()
     await this.sourceFiles.removeDirectory()
   })

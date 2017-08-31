@@ -396,36 +396,36 @@ var consolidateFilesToFile$1 = (function () {
                   sourceFiles.map(
                     (function () {
                       var _ref2 = asyncToGenerator(
-                        /* #__PURE__ */ regeneratorRuntime.mark(
-                          function _callee (sourceFile) {
-                            return regeneratorRuntime.wrap(
-                              function _callee$ (_context) {
-                                while (1) {
-                                  switch ((_context.prev = _context.next)) {
-                                    case 0:
-                                      _context.next = 2
-                                      return concatenate.fileToFile(
-                                        sourceFile,
-                                        destinationFile
-                                      )
+                        /* #__PURE__ */ regeneratorRuntime.mark(function _callee (
+                          sourceFile
+                        ) {
+                          return regeneratorRuntime.wrap(
+                            function _callee$ (_context) {
+                              while (1) {
+                                switch ((_context.prev = _context.next)) {
+                                  case 0:
+                                    _context.next = 2
+                                    return concatenate.fileToFile(
+                                      sourceFile,
+                                      destinationFile
+                                    )
 
-                                    case 2:
-                                      return _context.abrupt(
-                                        'return',
-                                        fs.delete(sourceFile)
-                                      )
+                                  case 2:
+                                    return _context.abrupt(
+                                      'return',
+                                      fs.delete(sourceFile)
+                                    )
 
-                                    case 3:
-                                    case 'end':
-                                      return _context.stop()
-                                  }
+                                  case 3:
+                                  case 'end':
+                                    return _context.stop()
                                 }
-                              },
-                              _callee,
-                              _this
-                            )
-                          }
-                        )
+                              }
+                            },
+                            _callee,
+                            _this
+                          )
+                        })
                       )
 
                       return function (_x3) {

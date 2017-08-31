@@ -13,13 +13,13 @@ function consolidateFiles() {
     this.after = {}
     this.before.destinationFile = await this.destinationFile.read()
     this.before.sourceFiles = await this.sourceFiles.read()
-    await consolidate(SOURCES_GLOB, DESTINATION_FILE)
+    await consolidateGlobToFile(SOURCES_GLOB, DESTINATION_FILE)
     this.after.destinationFile = await this.destinationFile.read()
     this.after.sourceFiles = await this.sourceFiles.read()
   })
 }
 
-describe(`consolidating files to file`, () => {
+describe(`consolidating glob to file`, () => {
   beforeEach(async function() {
     this.destinationFile = new File(DESTINATION_FILE)
     this.sourceFiles = new RandomFiles(SOURCES_DIRECTORY, 10)
@@ -46,11 +46,11 @@ describe(`consolidating files to file`, () => {
             beforeEach(async function() {
               await this.destinationFile.mock()
             })
-            consolidateFiles()
+            consolidate()
             assert.shouldConsolidate()
           })
           describe('destination file does not contain data', () => {
-            consolidateFiles()
+            consolidate()
             assert.shouldConsolidate()
           })
         })
@@ -58,7 +58,7 @@ describe(`consolidating files to file`, () => {
           beforeEach(async function() {
             await this.destinationFile.remove()
           })
-          consolidateFiles()
+          consolidate()
           assert.shouldConsolidate()
         })
       })
@@ -66,7 +66,7 @@ describe(`consolidating files to file`, () => {
         beforeEach(async function() {
           await this.destinationFile.removeDirectory()
         })
-        consolidateFiles()
+        consolidate()
         assert.shouldConsolidate()
       })
     })
@@ -83,11 +83,11 @@ describe(`consolidating files to file`, () => {
             beforeEach(async function() {
               await this.destinationFile.mock()
             })
-            consolidateFiles()
+            consolidate()
             assert.shouldNotConsolidate()
           })
           describe('destination file does not contain data', () => {
-            consolidateFiles()
+            consolidate()
             assert.shouldNotConsolidate()
           })
         })
@@ -95,7 +95,7 @@ describe(`consolidating files to file`, () => {
           beforeEach(async function() {
             await this.destinationFile.remove()
           })
-          consolidateFiles()
+          consolidate()
           assert.shouldNotConsolidate()
         })
       })
@@ -103,7 +103,7 @@ describe(`consolidating files to file`, () => {
         beforeEach(async function() {
           await this.destinationFile.removeDirectory()
         })
-        consolidateFiles()
+        consolidate()
         assert.shouldNotConsolidate()
       })
     })
@@ -124,11 +124,11 @@ describe(`consolidating files to file`, () => {
           beforeEach(async function() {
             await this.destinationFile.mock()
           })
-          consolidateFiles()
+          consolidate()
           assert.shouldNotConsolidate()
         })
         describe('destination file does not contain data', () => {
-          consolidateFiles()
+          consolidate()
           assert.shouldNotConsolidate()
         })
       })
@@ -136,7 +136,7 @@ describe(`consolidating files to file`, () => {
         beforeEach(async function() {
           await this.destinationFile.remove()
         })
-        consolidateFiles()
+        consolidate()
         assert.shouldNotConsolidate()
       })
     })
@@ -144,7 +144,7 @@ describe(`consolidating files to file`, () => {
       beforeEach(async function() {
         await this.destinationFile.removeDirectory()
       })
-      consolidateFiles()
+      consolidate()
       assert.shouldNotConsolidate()
     })
   })

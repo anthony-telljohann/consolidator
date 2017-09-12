@@ -65,7 +65,7 @@
     "@istanbuljs/nyc-config-babel": "^1.2.2",
     "ava": "^0.22.0",
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^8.0.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-lodash": "^3.2.11",

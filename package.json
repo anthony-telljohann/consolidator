@@ -2,9 +2,8 @@
   "name": "consolidator",
   "version": "0.0.0-development",
   "description": "Consolidate sources to a destination.",
-  "main": "src/consolidator.cjs.js",
-  "module": "src/consolidator.es6.js",
-  "browser": "src/consolidator.umd.js",
+  "main": "dist/consolidator.cjs.js",
+  "module": "dist/consolidator.es6.js",
   "scripts": {
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
@@ -74,12 +73,7 @@
     "rollup-plugin-babel": "^3.0.1",
     "rollup-plugin-prettier": "^0.3.0",
     "semantic-release": "^8.0.0",
-    "should": "^13.0.1",
-    "stryker": "^0.9.3",
-    "stryker-api": "^0.8.0",
-    "stryker-html-reporter": "^0.7.2",
-    "stryker-mocha-framework": "^0.4.0",
-    "stryker-mocha-runner": "^0.7.0"
+    "should": "^13.0.1"
   },
   "dependencies": {
     "async-file": "^2.0.2",

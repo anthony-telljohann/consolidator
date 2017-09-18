@@ -1,5 +1,5 @@
 {
-        "name": "consolidator",
+          "name": "consolidator",
     "version": "0.0.0-development",
       "description": "Consolidate sources to a destination.",
   "main": "dist/consolidator.cjs.js",

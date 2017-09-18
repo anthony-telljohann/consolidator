@@ -8,21 +8,24 @@
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
     "build:es": "cross-env BABEL_ENV=es rollup -c rollup.config.js",
-    "clean": "npm run clean:coverage && npm run clean:nyc_output && npm run clean:src",
+    "clean":
+      "npm run clean:coverage && npm run clean:nyc_output && npm run clean:src",
     "clean:coverage": "rm -rf coverage",
     "clean:nyc_output": "rm -rf .nyc_output",
     "clean:src": "rm -rf src",
     "coverage:html": "nyc report --reporter=html",
     "coverage:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "coverage:upload": "npm run coverage:lcov && codecov",
-    "format": "prettier **/*.{js,jsx,rc,json,css,less,scss}",
+    "format":
+      "prettier '**/*.{js,jsx,json,css,less,scss,babelrc,prettierrc,nycrc}' --write",
     "postbuild": "npm run test",
     "posttest": "npm run coverage:html",
     "prebuild": "npm run clean",
     "prepublishOnly": "npm run build",
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
-    "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
+    "semantic-release":
+      "semantic-release pre && npm publish --access=public && semantic-release post",
     "test": "cross-env BABEL_ENV=test nyc mocha test/**/*.spec.js",
     "watch": "npm run test -- --watch"
   },
@@ -80,9 +83,7 @@
     "glob-promise": "^3.1.0",
     "is": "^3.2.1"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "release": {
     "debug": false,
     "analyzeCommits": "@bubltechnology/customizable-commit-analyzer"

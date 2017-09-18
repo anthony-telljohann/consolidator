@@ -38,9 +38,7 @@
         [
           "module-resolver",
           {
-            "root": [
-              "./"
-            ],
+            "root": ["./"],
             "alias": {
               "consolidator": "/lib/consolidator.js",
               "constants": "/test/shared/constants/index.js",

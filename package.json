@@ -1,10 +1,10 @@
 {
-  "name": "consolidator",
-  "version": "0.0.0-development",
-  "description": "Consolidate sources to a destination.",
+        "name": "consolidator",
+    "version": "0.0.0-development",
+      "description": "Consolidate sources to a destination.",
   "main": "dist/consolidator.cjs.js",
   "module": "dist/consolidator.es6.js",
-  "scripts": {
+              "scripts": {
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
     "build:es": "cross-env BABEL_ENV=es rollup -c rollup.config.js",
@@ -17,7 +17,7 @@
     "coverage:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "coverage:upload": "npm run coverage:lcov && codecov",
     "format":
-      "prettier '**/*.{js,jsx,json,css,less,scss,babelrc,prettierrc,nycrc}' --write",
+      "prettier '**/*.{css,less,scss,html,ts,tsx,graphql,gql,json,js,jsx,babelrc,nycrc,prettierrc}' --write",
     "postbuild": "npm run test",
     "posttest": "npm run coverage:html",
     "prebuild": "npm run clean",
@@ -81,7 +81,8 @@
   "dependencies": {
     "async-file": "^2.0.2",
     "glob-promise": "^3.1.0",
-    "is": "^3.2.1"
+    "is": "^3.2.1",
+    "yarn": "^1.0.2"
   },
   "files": ["dist"],
   "release": {

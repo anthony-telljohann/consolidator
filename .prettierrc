@@ -15,7 +15,7 @@
       }
     },
     {
-      "files": "*.{css,less,scss}",
+                    "files": "*.{css,less,scss}",
       "options": {
         "parser": "postcss"
       }

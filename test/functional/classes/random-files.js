@@ -1,13 +1,13 @@
-import Files from './files.js'
-import RandomFile from './random-file.js'
+import Files from "./files.js";
+import RandomFile from "./random-file.js";
 
-const _directory = new WeakMap()
+const _directory = new WeakMap();
 
 export default class RandomFiles extends Files {
   constructor(directory, count) {
-    super(0)
+    super(0);
     while (this.length < count) {
-      this.push(new RandomFile(directory))
+      this.push(new RandomFile(directory));
     }
   }
 }

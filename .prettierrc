@@ -3,7 +3,7 @@
   "singleQuote": true,
   "overrides": [
     {
-                          "files": "*.json",
+                              "files": "*.json",
       "options": {
         "parser": "json"
       }

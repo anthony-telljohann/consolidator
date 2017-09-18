@@ -11,6 +11,6 @@
     -   id: trailing-whitespace
 -   repo: https://github.com/prettier/prettier.git
     sha: 1.6.1
-    files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|*rc)$
+    files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|rc)$
     hooks:
     -   id: prettier

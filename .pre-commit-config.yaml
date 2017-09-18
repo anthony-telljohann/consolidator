@@ -13,4 +13,4 @@
     sha: 1.6.1
     hooks:
     -   id: prettier
-        files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc)$
+        files: ^\.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc)$

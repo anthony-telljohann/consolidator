@@ -3,20 +3,14 @@
   "singleQuote": true,
   "overrides": [
     {
-                              "files": "*.json",
-      "options": {
-                      "parser": "json"
-      }
-    },
-    {
-      "files": ".*rc",
+      "files": ".{json,babelrc,nycrc,prettierrc}",
       "options": {
         "parser": "json"
       }
     },
     {
-                      "files": "*.{css,less,scss}",
-                            "options": {
+                    "files": ".{css,less,scss}",
+      "options": {
         "parser": "postcss"
       }
     }

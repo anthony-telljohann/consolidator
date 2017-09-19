@@ -13,7 +13,7 @@
     hooks:
     -   id: prettier
         name: prettier
-        entry: yarn run format
+        entry: prettier --write
         language: node
-        pass_filenames: false
-        always_run: true
+        files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc)$
+        additional_dependencies: ['prettier@1.6.1']

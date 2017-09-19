@@ -16,6 +16,7 @@
     "coverage:html": "nyc report --reporter=html",
     "coverage:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "coverage:upload": "npm run coverage:lcov && codecov",
+    "format": "pre-commit run prettier --all-files",
     "postbuild": "npm run test",
     "posttest": "npm run coverage:html",
     "prebuild": "npm run clean",

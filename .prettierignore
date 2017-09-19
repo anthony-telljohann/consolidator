@@ -1,7 +1,6 @@
 .DS_Store
 .nyc_output
 coverage
-coverage.lcov
-package.lock
 node_modules
-src
+package-lock.json
+yarn.lock

@@ -1,10 +1,10 @@
 {
-          "name": "consolidator",
-    "version": "0.0.0-development",
-      "description": "Consolidate sources to a destination.",
+  "name": "consolidator",
+  "version": "0.0.0-development",
+  "description": "Consolidate sources to a destination.",
   "main": "dist/consolidator.cjs.js",
   "module": "dist/consolidator.es6.js",
-              "scripts": {
+  "scripts": {
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
     "build:es": "cross-env BABEL_ENV=es rollup -c rollup.config.js",

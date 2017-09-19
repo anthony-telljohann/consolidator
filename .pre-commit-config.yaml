@@ -9,8 +9,11 @@
     -   id: end-of-file-fixer
     -   id: sort-simple-yaml
     -   id: trailing-whitespace
--   repo: https://github.com/prettier/prettier.git
-    sha: 1.6.1
+-   repo: local
     hooks:
     -   id: prettier
-        files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc)$
+        name: prettier
+        entry: yarn run format
+        language: node
+        pass_filenames: false
+        always_run: true

@@ -2,39 +2,31 @@
   "name": "consolidator",
   "version": "0.0.0-development",
   "description": "Consolidate sources to a destination.",
-  "main": "src/consolidator.cjs.js",
-  "module": "src/consolidator.es6.js",
-  "browser": "src/consolidator.umd.js",
+  "main": "dist/consolidator.cjs.js",
+  "module": "dist/consolidator.es6.js",
   "scripts": {
     "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "cross-env BABEL_ENV=cjs rollup -c .rollup",
-    "build:es": "cross-env BABEL_ENV=es rollup -c .rollup",
-    "clean": "npm run clean:coverage && npm run clean:nyc_output && npm run clean:dist",
+    "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
+    "build:es": "cross-env BABEL_ENV=es rollup -c rollup.config.js",
+    "clean":
+      "npm run clean:coverage && npm run clean:nyc_output && npm run clean:src",
     "clean:coverage": "rm -rf coverage",
-    "clean:dist": "rm -rf dist",
     "clean:nyc_output": "rm -rf .nyc_output",
+    "clean:src": "rm -rf src",
     "coverage:html": "nyc report --reporter=html",
     "coverage:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "coverage:upload": "npm run coverage:lcov && codecov",
-    "git:commit": "git-cz",
-    "lint": "npm run lint:lib && npm run lint:test",
-    "lint:dist": "prettier-standard 'dist/**/*.js'",
-    "lint:lib": "prettier-standard 'lib/**/*.js'",
-    "lint:test": "prettier-standard 'test/**/*.js'",
-    "postbuild": "npm run lint:dist",
+    "format": "pre-commit run prettier --all-files",
+    "postbuild": "npm run test",
     "posttest": "npm run coverage:html",
-    "prebuild": "npm run clean && npm run lint:lib",
-    "precommit": "npm run build",
-    "prepublishOnly": "npm test",
-    "prepush": "npm run build",
-    "pretest": "npm run build && npm run lint:test",
+    "prebuild": "npm run clean",
+    "prepublishOnly": "npm run build",
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
-    "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
-    "test": "npm run test:unit && npm run test:functional",
-    "test:functional": "cross-env BABEL_ENV=test nyc mocha test/functional/**/*.js",
-    "test:unit": "cross-env BABEL_ENV=test nyc ava test/unit/**/*.js",
-    "watch": "cross-env BABEL_ENV=test ava --watch"
+    "semantic-release":
+      "semantic-release pre && npm publish --access=public && semantic-release post",
+    "test": "cross-env BABEL_ENV=test nyc mocha test/**/*.spec.js",
+    "watch": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",
@@ -61,100 +53,39 @@
   },
   "homepage": "https://github.com/atelljohannsmothers/consolidator#readme",
   "devDependencies": {
+    "@ava/babel-preset-stage-4": "^1.1.0",
     "@bubltechnology/customizable-commit-analyzer": "^1.0.2-0",
     "@istanbuljs/nyc-config-babel": "^1.2.2",
-    "ava": "^0.22.0",
     "babel-cli": "^6.26.0",
     "babel-eslint": "^8.0.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-istanbul": "^4.1.4",
-    "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-module-resolver": "^2.7.1",
     "babel-preset-env": "^1.6.0",
-    "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
     "babelrc-rollup": "^3.0.0",
-    "chai": "^4.1.1",
-    "chai-as-promised": "^7.1.1",
     "codecov": "^2.3.0",
     "commitizen": "^2.9.6",
     "cross-env": "^5.0.5",
     "cz-conventional-changelog": "^2.0.0",
-    "eslint": "^4.5.0",
-    "eslint-plugin-prettier": "^2.2.0",
-    "fs-extra-promise": "^1.0.1",
-    "husky": "^0.14.3",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.5.0",
+    "mocha": "^3.5.3",
     "nyc": "^11.1.0",
-    "prettier": "^1.5.3",
-    "prettier-standard": "^6.0.0",
+    "prettier": "^1.6.1",
     "randomatic": "^1.1.7",
     "rollup": "^0.50.0",
     "rollup-plugin-alias": "^1.3.1",
     "rollup-plugin-babel": "^3.0.1",
-    "rollup-plugin-commonjs": "^8.0.2",
-    "rollup-plugin-istanbul": "^1.1.0",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-prettier": "^0.3.0",
-    "rollup-watch": "^4.3.1",
-    "semantic-release": "^8.0.0"
+    "semantic-release": "^8.0.0",
+    "should": "^13.0.1"
   },
   "dependencies": {
     "async-file": "^2.0.2",
     "glob-promise": "^3.1.0",
-    "is": "^3.2.1"
+    "is": "^3.2.1",
+    "yarn": "^1.0.2"
   },
-  "files": [
-    "dist"
-  ],
-  "ava": {
-    "babel": {
-      "plugins": [
-        [
-          "module-resolver",
-          {
-            "root": [
-              "./"
-            ],
-            "alias": {
-              "consolidator": "/lib/consolidator.js",
-              "constants": "/test/helpers/constants",
-              "macros": "/test/helpers/macros"
-            }
-          }
-        ]
-      ]
-    },
-    "require": [
-      "babel-register"
-    ],
-    "color": true,
-    "concurrency": 25,
-    "verbose": true,
-    "failFast": false,
-    "failWithoutAssertions": true,
-    "powerAssert": true
-  },
-  "nyc": {
-    "require": [
-      "babel-register"
-    ],
-    "sourceMap": false,
-    "instrument": false
-  },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "none",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": false,
-    "parser": "babylon"
-  },
+  "files": ["dist"],
   "release": {
     "debug": false,
     "analyzeCommits": "@bubltechnology/customizable-commit-analyzer"

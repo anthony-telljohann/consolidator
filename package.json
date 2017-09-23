@@ -99,7 +99,8 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-prettier": "^0.3.0",
     "rollup-watch": "^4.3.1",
-    "semantic-release": "^8.0.0"
+    "semantic-release": "^8.0.0",
+    "yarn": "^1.0.2"
   },
   "dependencies": {
     "async-file": "^2.0.2",

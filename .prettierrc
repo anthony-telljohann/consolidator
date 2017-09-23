@@ -1,0 +1,18 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": ".{json,babelrc,nycrc,prettierrc}",
+      "options": {
+        "parser": "json"
+      }
+    },
+    {
+      "files": ".{css,less,scss}",
+      "options": {
+        "parser": "postcss"
+      }
+    }
+  ]
+}

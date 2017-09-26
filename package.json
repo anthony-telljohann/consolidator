@@ -103,34 +103,6 @@
   "files": [
     "dist"
   ],
-  "ava": {
-    "babel": {
-      "plugins": [
-        [
-          "module-resolver",
-          {
-            "root": [
-              "./"
-            ],
-            "alias": {
-              "consolidator": "/lib/consolidator.js",
-              "constants": "/test/helpers/constants",
-              "macros": "/test/helpers/macros"
-            }
-          }
-        ]
-      ]
-    },
-    "require": [
-      "babel-register"
-    ],
-    "color": true,
-    "concurrency": 25,
-    "verbose": true,
-    "failFast": false,
-    "failWithoutAssertions": true,
-    "powerAssert": true
-  },
   "nyc": {
     "require": [
       "babel-register"

@@ -6,9 +6,9 @@
   "module": "dist/consolidator.es6.js",
   "scripts": {
     "build": "npm run build:cjs && npm run build:es",
-    "clean": "npm run clean:coverage && npm run clean:nyc_output && npm run clean:dist",
     "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
     "build:es": "cross-env BABEL_ENV=es rollup -c rollup.config.js",
+    "clean": "npm run clean:coverage && npm run clean:dist && npm run clean:nyc_output",
     "clean:coverage": "rm -rf coverage",
     "clean:dist": "rm -rf dist",
     "clean:nyc_output": "rm -rf .nyc_output",

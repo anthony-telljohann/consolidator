@@ -75,6 +75,7 @@
     "rollup-plugin-babel": "^3.0.1",
     "rollup-plugin-prettier": "^0.3.0",
     "semantic-release": "^8.0.0",
+    "should": "^13.0.1",
     "yarn": "^1.0.2"
   },
   "dependencies": {

@@ -110,17 +110,6 @@
     "sourceMap": false,
     "instrument": false
   },
-  "prettier": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "none",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": false,
-    "parser": "babylon"
-  },
   "release": {
     "debug": false,
     "analyzeCommits": "@bubltechnology/customizable-commit-analyzer"

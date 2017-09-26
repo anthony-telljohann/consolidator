@@ -15,7 +15,6 @@
     "coverage:html": "nyc report --reporter=html",
     "coverage:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "coverage:upload": "npm run coverage:lcov && codecov",
-    "git:commit": "git-cz",
     "postbuild": "npm run lint:dist",
     "format": "pre-commit run prettier --all-files",
     "posttest": "npm run coverage:html",

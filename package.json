@@ -51,6 +51,7 @@
   },
   "homepage": "https://github.com/atelljohannsmothers/consolidator#readme",
   "devDependencies": {
+    "@ava/babel-preset-stage-4": "^1.1.0",
     "@bubltechnology/customizable-commit-analyzer": "^1.0.2-0",
     "@istanbuljs/nyc-config-babel": "^1.2.2",
     "babel-cli": "^6.26.0",

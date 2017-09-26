@@ -18,7 +18,6 @@
     "format": "pre-commit run prettier --all-files",
     "postbuild": "npm run test",
     "posttest": "npm run coverage:html",
-    "prepush": "npm run build",
     "pretest": "npm run build && npm run lint:test",
     "prebuild": "npm run clean",
     "prepublishOnly": "npm run build",

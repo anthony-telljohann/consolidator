@@ -2,17 +2,19 @@ import babel from 'rollup-plugin-babel'
 import pkg from './package.json'
 import prettier from 'rollup-plugin-prettier'
 
-let dest
+let outputFile
 if (process.env.BABEL_ENV === 'es') {
-  dest = pkg.module
+  outputFile = pkg.module
 } else {
-  dest = pkg.main
+  outputFile = pkg.main
 }
 
 export default {
-  format: process.env.BABEL_ENV,
-  entry: `lib/consolidator.js`,
-  dest: dest,
+  input: `lib/consolidator.js`,
+  output: {
+    file: outputFile,
+    format: process.env.BABEL_ENV
+  },
   external: Object.keys(pkg.dependencies),
-  plugins: [babel(), prettier(pkg.prettier)]
+  plugins: [babel(), prettier()]
 }

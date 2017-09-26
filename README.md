@@ -1,7 +1,6 @@
 # consolidator
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/atelljohannsmothers/consolidator.svg)](https://greenkeeper.io/)
-
 [![Build Status](https://travis-ci.org/atelljohannsmothers/consolidator.svg?branch=master)](https://travis-ci.org/atelljohannsmothers/consolidator)
 [![codecov](https://codecov.io/gh/atelljohannsmothers/consolidator/branch/master/graph/badge.svg)](https://codecov.io/gh/atelljohannsmothers/consolidator)
 [![NPM version](https://img.shields.io/npm/v/consolidator.svg)](https://www.npmjs.com/package/consolidator)
@@ -11,14 +10,19 @@ Consolidate sources to a destination.
 
 ## Usage
 
-Install with npm
+Install with yarn
 
 ```
-npm install consolidator
+yarn add consolidator
 ```
 
 ```js
-import { consolidate } from 'consolidator';
+import {
+  consolidate,
+  consolidateGlobToFile,
+  consolidateFilesToFile,
+  consolidateFileToFile
+} from 'consolidator';
 ```
 
 ### API
@@ -30,4 +34,40 @@ import { consolidate } from 'consolidator';
 
 ```js
 consolidate('sources/*', 'destination/consolidated');
+```
+
+#### `consolidate(sources, destination)`
+
+* `sources` `{Array}` file paths
+* `destination` `{String}` file path
+
+```js
+consolidate(['sources/source', 'other-sources/source'], 'destination/consolidated');
+```
+
+#### `consolidateGlobToFile(sources, destination)`
+
+* `sources` `{String}` glob pattern
+* `destination` `{String}` file path
+
+```js
+consolidateGlobToFile('sources/*', 'destination/consolidated');
+```
+
+#### `consolidateFilesToFile(sources, destination)`
+
+* `sources` `{Array}` file paths
+* `destination` `{String}` file path
+
+```js
+consolidateFilesToFile(['sources/source', 'other-sources/source'], 'destination/consolidated');
+```
+
+#### `consolidateFileToFile(source, destination)`
+
+* `source` `{String}` file path
+* `destination` `{String}` file path
+
+```js
+consolidateFileToFile('sources/source', 'destination/consolidated');
 ```

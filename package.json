@@ -26,8 +26,8 @@
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
     "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
-    "watch": "cross-env BABEL_ENV=test ava --watch"
     "test": "cross-env BABEL_ENV=test nyc mocha test/**/*.spec.js",
+    "watch": "npm run test -- --watch"
   },
   "repository": {
     "type": "git",

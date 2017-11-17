@@ -6,6 +6,6 @@ export default function shouldBeRejected(message) {
     this.context.should.be.rejectedWith(TypeError)
   })
   it(`should be rejected with "${message}"`, async function() {
-    this.context.should.be.rejectedWith(message)
+    this.context.should.be.rejectedWith('foo')
   })
 }

@@ -7,28 +7,45 @@ describe(`consolidateFileToFile`, () => {
     this.context = consolidateFileToFile
   })
   assert.shouldBeAFunction()
-  describe(`not specifying source and not specifying destination`, () => {
+  describe(`consolidating file to file`, () => {
     beforeEach(async function() {
-      this.context = consolidateFileToFile()
+      this.context = function() {
+        return consolidateFileToFile(this.source, this.destination)
+      }
     })
-    assert.shouldBeRejected(SOURCE.SHOULD_BE_A_NON_EMPTY_STRING)
-  })
-  describe(`not specifying source and specifying destination as "${DESTINATION.FILE}"`, () => {
-    beforeEach(async function() {
-      this.context = consolidateFileToFile(undefined, DESTINATION.FILE)
+    describe(`with source specified as a String ("${SOURCE.FILE}")`, () => {
+      beforeEach(async function() {
+        this.source = SOURCE.FILE
+      })
+      describe(`with destination specified as a String ("${DESTINATION.FILE}")`, () => {
+        beforeEach(async function() {
+          this.destination = DESTINATION.FILE
+        })
+        assert.shouldBeFulfilled()
+      })
+      describe(`without destination (undefined)`, () => {
+        beforeEach(async function() {
+          this.destination = undefined
+        })
+        assert.shouldBeRejected(DESTINATION.SHOULD_BE_A_NON_EMPTY_STRING)
+      })
     })
-    assert.shouldBeRejected(SOURCE.SHOULD_BE_A_NON_EMPTY_STRING)
-  })
-  describe(`specifying source as "${SOURCE.FILE}" and not specifying destination`, () => {
-    beforeEach(async function() {
-      this.context = consolidateFileToFile(SOURCE.FILE, undefined)
+    describe(`without source (undefined)`, () => {
+      beforeEach(async function() {
+        this.source = undefined
+      })
+      describe(`with destination specified as a String ("${DESTINATION.FILE}")`, () => {
+        beforeEach(async function() {
+          this.destination = DESTINATION.FILE
+        })
+        assert.shouldBeRejected(SOURCE.SHOULD_BE_A_NON_EMPTY_STRING)
+      })
+      describe(`without destination (undefined)`, () => {
+        beforeEach(async function() {
+          this.destination = undefined
+        })
+        assert.shouldBeRejected(SOURCE.SHOULD_BE_A_NON_EMPTY_STRING)
+      })
     })
-    assert.shouldBeRejected(DESTINATION.SHOULD_BE_A_NON_EMPTY_STRING)
-  })
-  describe(`specifying source as "${SOURCE.FILE}" and specifying destination as "${DESTINATION.FILE}"`, () => {
-    beforeEach(async function() {
-      this.context = consolidateFileToFile(SOURCE.FILE, DESTINATION.FILE)
-    })
-    assert.shouldBeFulfilled()
   })
 })

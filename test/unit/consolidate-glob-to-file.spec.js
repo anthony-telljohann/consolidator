@@ -7,28 +7,45 @@ describe(`consolidateGlobToFile`, () => {
     this.context = consolidateGlobToFile
   })
   assert.shouldBeAFunction()
-  describe(`not specifying source and not specifying destination`, () => {
+  describe(`consolidating`, () => {
     beforeEach(async function() {
-      this.context = consolidateGlobToFile()
+      this.context = function() {
+        return consolidateGlobToFile(this.sources, this.destination)
+      }
     })
-    assert.shouldBeRejected(SOURCES.SHOULD_BE_NON_EMPTY_STRING)
-  })
-  describe(`not specifying sources and specifying destination as "${DESTINATION.FILE}"`, () => {
-    beforeEach(async function() {
-      this.context = consolidateGlobToFile(undefined, DESTINATION.FILE)
+    describe(`with sources specified as a String ("${SOURCES.GLOB}")`, () => {
+      beforeEach(async function() {
+        this.sources = SOURCES.GLOB
+      })
+      describe(`with destination specified as a String ("${DESTINATION.FILE}")`, () => {
+        beforeEach(async function() {
+          this.destination = DESTINATION.FILE
+        })
+        assert.shouldBeFulfilled()
+      })
+      describe(`without destination (undefined)`, () => {
+        beforeEach(async function() {
+          this.destination = undefined
+        })
+        assert.shouldBeRejected(DESTINATION.SHOULD_BE_A_NON_EMPTY_STRING)
+      })
     })
-    assert.shouldBeRejected(SOURCES.SHOULD_BE_NON_EMPTY_STRING)
-  })
-  describe(`specifying sources as "${SOURCES.GLOB}" and not specifying destination`, () => {
-    beforeEach(async function() {
-      this.context = consolidateGlobToFile(SOURCES.GLOB, undefined)
+    describe(`without sources (undefined)`, () => {
+      beforeEach(async function() {
+        this.sources = undefined
+      })
+      describe(`with destination specified as a String ("${DESTINATION.FILE}")`, () => {
+        beforeEach(async function() {
+          this.destination = DESTINATION.FILE
+        })
+        assert.shouldBeRejected(SOURCES.SHOULD_BE_A_NON_EMPTY_STRING)
+      })
+      describe(`without destination (undefined)`, () => {
+        beforeEach(async function() {
+          this.destination = undefined
+        })
+        assert.shouldBeRejected(SOURCES.SHOULD_BE_A_NON_EMPTY_STRING)
+      })
     })
-    assert.shouldBeRejected(DESTINATION.SHOULD_BE_NON_EMPTY_STRING)
-  })
-  describe(`specifying sources as "${SOURCES.GLOB}" and specifying destination as "${DESTINATION.FILE}"`, () => {
-    beforeEach(async function() {
-      this.context = consolidateGlobToFile(SOURCES.GLOB, DESTINATION.FILE)
-    })
-    assert.shouldBeFulfilled()
   })
 })

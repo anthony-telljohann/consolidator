@@ -40,10 +40,10 @@
           {
             "root": ["./"],
             "alias": {
-              "consolidator": "/lib/consolidator.js",
-              "constants": "/test/shared/constants/index.js",
-              "functional": "/test/functional",
-              "unit": "/test/unit"
+              "consolidator": "./lib/consolidator.js",
+              "constants": "./test/shared/constants/index.js",
+              "functional": "./test/functional",
+              "unit": "./test/unit"
             }
           }
         ],

@@ -3,6 +3,5 @@
 --sort
 --require should
 --ui bdd
---es_staging
 --reporter spec
 --recursive

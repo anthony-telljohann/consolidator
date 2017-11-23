@@ -8,7 +8,8 @@
     "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "cross-env BABEL_ENV=cjs rollup -c rollup.config.js",
     "build:es": "cross-env BABEL_ENV=es rollup -c rollup.config.js",
-    "clean": "npm run clean:coverage && npm run clean:dist && npm run clean:nyc_output",
+    "clean":
+      "npm run clean:coverage && npm run clean:dist && npm run clean:nyc_output",
     "clean:coverage": "rm -rf coverage",
     "clean:dist": "rm -rf dist",
     "clean:nyc_output": "rm -rf .nyc_output",
@@ -22,8 +23,9 @@
     "prepublishOnly": "npm run build",
     "report:html": "nyc report --reporter=html",
     "report:lcov": "nyc report --reporter=text-lcov > coverage.lcov",
-    "semantic-release": "semantic-release pre && npm publish --access=public && semantic-release post",
-    "test": "cross-env BABEL_ENV=test nyc mocha test/**/*.spec.js",
+    "semantic-release":
+      "semantic-release pre && npm publish --access=public && semantic-release post",
+    "test": "cross-env BABEL_ENV=test nyc mocha",
     "watch": "npm run test -- --watch"
   },
   "repository": {
@@ -83,9 +85,7 @@
     "glob-promise": "^3.1.0",
     "is": "^3.2.1"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "release": {
     "debug": false,
     "analyzeCommits": "@bubltechnology/customizable-commit-analyzer"

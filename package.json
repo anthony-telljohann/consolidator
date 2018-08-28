@@ -55,7 +55,7 @@
     "@bubltechnology/customizable-commit-analyzer": "^1.0.2-0",
     "@istanbuljs/nyc-config-babel": "^1.2.2",
     "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.0.0",
+    "babel-eslint": "^9.0.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-plugin-module-resolver": "^3.0.0",

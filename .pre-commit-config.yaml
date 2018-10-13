@@ -1,19 +1,19 @@
--   repo: https://github.com/pre-commit/pre-commit-hooks.git
-    sha: v0.9.2
-    hooks:
-    -   id: check-added-large-files
-    -   id: check-json
-    -   id: check-merge-conflict
-    -   id: check-yaml
-    -   id: double-quote-string-fixer
-    -   id: end-of-file-fixer
-    -   id: sort-simple-yaml
-    -   id: trailing-whitespace
--   repo: local
-    hooks:
-    -   id: prettier
-        name: prettier
-        entry: prettier --write
-        language: node
-        files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc)$
-        additional_dependencies: ['prettier@1.6.1']
+- repo: https://github.com/pre-commit/pre-commit-hooks.git
+  sha: v0.9.2
+  hooks:
+    - id: check-added-large-files
+    - id: check-json
+    - id: check-merge-conflict
+    - id: check-yaml
+    - id: double-quote-string-fixer
+    - id: end-of-file-fixer
+    - id: sort-simple-yaml
+    - id: trailing-whitespace
+- repo: local
+  hooks:
+    - id: prettier
+      name: prettier
+      entry: prettier --write
+      language: node
+      files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc)$
+      additional_dependencies: ['prettier@1.14.3']

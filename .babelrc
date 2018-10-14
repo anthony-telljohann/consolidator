@@ -3,7 +3,7 @@
     "cjs": {
       "presets": [
         [
-          "env",
+          "@babel/preset-env",
           {
             "targets": {
               "node": "4"
@@ -14,12 +14,12 @@
           }
         ]
       ],
-      "plugins": ["external-helpers"]
+      "plugins": ["@babel/plugin-external-helpers"]
     },
     "es": {
       "presets": [
         [
-          "env",
+          "@babel/preset-env",
           {
             "targets": {
               "node": "current"
@@ -30,7 +30,7 @@
           }
         ]
       ],
-      "plugins": ["external-helpers"]
+      "plugins": ["@babel/plugin-external-helpers"]
     },
     "test": {
       "presets": ["@ava/stage-4"],

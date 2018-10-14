@@ -15,5 +15,5 @@
       name: prettier
       entry: prettier --write
       language: node
-      files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc)$
+      files: \.(css|less|scss|html|ts|tsx|graphql|gql|json|js|jsx|babelrc|nycrc|prettierrc|releaserc)$
       additional_dependencies: ['prettier@1.14.3']

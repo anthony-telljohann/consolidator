@@ -38,7 +38,7 @@ export default class File {
     return this.write('')
   }
   async write(data) {
-    if (!await fs.exists(this.directory)) {
+    if (!(await fs.exists(this.directory))) {
       await this.createDirectory()
     }
     return fs.writeTextFile(this.path, data)

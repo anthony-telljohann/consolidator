@@ -17,7 +17,9 @@ describe(`consolidateGlobToFile`, () => {
       beforeEach(async function() {
         this.sources = SOURCES.GLOB
       })
-      describe(`with destination specified as a String ("${DESTINATION.FILE}")`, () => {
+      describe(`with destination specified as a String ("${
+        DESTINATION.FILE
+      }")`, () => {
         beforeEach(async function() {
           this.destination = DESTINATION.FILE
         })
@@ -34,7 +36,9 @@ describe(`consolidateGlobToFile`, () => {
       beforeEach(async function() {
         this.sources = undefined
       })
-      describe(`with destination specified as a String ("${DESTINATION.FILE}")`, () => {
+      describe(`with destination specified as a String ("${
+        DESTINATION.FILE
+      }")`, () => {
         beforeEach(async function() {
           this.destination = DESTINATION.FILE
         })

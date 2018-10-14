@@ -3,7 +3,7 @@
   "singleQuote": true,
   "overrides": [
     {
-      "files": ".{json,babelrc,nycrc,prettierrc}",
+      "files": ".{json,babelrc,nycrc,prettierrc,releaserc}",
       "options": {
         "parser": "json"
       }

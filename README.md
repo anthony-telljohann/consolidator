@@ -22,52 +22,58 @@ import {
   consolidateGlobToFile,
   consolidateFilesToFile,
   consolidateFileToFile
-} from 'consolidator';
+} from 'consolidator'
 ```
 
 ### API
 
 #### `consolidate(sources, destination)`
 
-* `sources` `{String}` glob pattern
-* `destination` `{String}` file path
+- `sources` `{String}` glob pattern
+- `destination` `{String}` file path
 
 ```js
-consolidate('sources/*', 'destination/consolidated');
+consolidate('sources/*', 'destination/consolidated')
 ```
 
 #### `consolidate(sources, destination)`
 
-* `sources` `{Array}` file paths
-* `destination` `{String}` file path
+- `sources` `{Array}` file paths
+- `destination` `{String}` file path
 
 ```js
-consolidate(['sources/source', 'other-sources/source'], 'destination/consolidated');
+consolidate(
+  ['sources/source', 'other-sources/source'],
+  'destination/consolidated'
+)
 ```
 
 #### `consolidateGlobToFile(sources, destination)`
 
-* `sources` `{String}` glob pattern
-* `destination` `{String}` file path
+- `sources` `{String}` glob pattern
+- `destination` `{String}` file path
 
 ```js
-consolidateGlobToFile('sources/*', 'destination/consolidated');
+consolidateGlobToFile('sources/*', 'destination/consolidated')
 ```
 
 #### `consolidateFilesToFile(sources, destination)`
 
-* `sources` `{Array}` file paths
-* `destination` `{String}` file path
+- `sources` `{Array}` file paths
+- `destination` `{String}` file path
 
 ```js
-consolidateFilesToFile(['sources/source', 'other-sources/source'], 'destination/consolidated');
+consolidateFilesToFile(
+  ['sources/source', 'other-sources/source'],
+  'destination/consolidated'
+)
 ```
 
 #### `consolidateFileToFile(source, destination)`
 
-* `source` `{String}` file path
-* `destination` `{String}` file path
+- `source` `{String}` file path
+- `destination` `{String}` file path
 
 ```js
-consolidateFileToFile('sources/source', 'destination/consolidated');
+consolidateFileToFile('sources/source', 'destination/consolidated')
 ```

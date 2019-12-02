@@ -7288,7 +7288,7 @@ yargs@^12.0.0:
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^10.1.0"
 
-yarn@^1.12.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.12.0.tgz#ef679f888cfd952046be4ab46365401363077cae"
-  integrity sha512-I12gbd954Gi+ynI/b86e36AMWVwo/V3I/FOlTvO0Eq6Yian3bIlwEXpZUr+B6lEcgnvsBQ6Y6/G48zb4UcXsdg==
+yarn@^1.21.0:
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.21.0.tgz#e0827d97a24f6714f1540cf2e8328b2e8eed682c"
+  integrity sha512-g9cvrdKXPZlz1eJYpKanQm3eywEmecudeyDkwiVWeswBrpHK3nJFBholkphHF9eNc8y/FNEhSQ8Et5ZAx4XyLw==
